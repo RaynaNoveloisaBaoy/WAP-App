@@ -4,7 +4,6 @@ env:
 defaults:
   run:
     working-directory: client
-    
 on:
   push:
     branches: [ main ]
