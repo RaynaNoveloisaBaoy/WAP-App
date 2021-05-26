@@ -12,8 +12,6 @@ jobs:
       - name: Setup Flutter # (2)
         run: |
           git clone https://github.com/flutter/flutter.git --depth 1
-            with:
-              flutter_version: ">=0.1.4
           echo "$GITHUB_WORKSPACE/flutter/bin" >> $GITHUB_PATH
       - name: Run Checks # (3)
         run: |
