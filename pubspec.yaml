@@ -41,7 +41,7 @@ dependencies:
   intro_slider: ^2.3.4
   firebase_storage:
   permission_handler: ^5.0.1+1
-  recase: ^4.0.0
+  recase:
   emoji_picker: ^0.0.2
   
 dev_dependencies:
