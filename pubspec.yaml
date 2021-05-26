@@ -24,7 +24,7 @@ dependencies:
   responsive_framework: ^0.1.0
   flutter:
     sdk: flutter
-    version: ">=0.1.4
+ 
   firebase_core: "0.7.0"
   cloud_firestore: ^0.16.0+1
   firebase_auth: "0.20.1"
