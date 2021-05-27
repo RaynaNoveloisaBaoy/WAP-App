@@ -1,11 +1,15 @@
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wap/profilepage.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 import 'dart:async';
 import 'package:flutter/material.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:image_picker/image_picker.dart';
 import 'package:wap/database.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:firebase_core/firebase_core.dart';
 
 class SetupProfilePage extends StatefulWidget {
@@ -14,33 +18,35 @@ class SetupProfilePage extends StatefulWidget {
 }
 
 class _SetupProfilePageState extends State<SetupProfilePage> {
+  // ignore: unused_field
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
-  TextEditingController _descriptionController = TextEditingController();
-  TextEditingController _nicknameController = TextEditingController();
-  TextEditingController _addressController = TextEditingController();
-  TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _nicknameController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
   final _key = GlobalKey<FormState>();
   final FirebaseAuth auth = FirebaseAuth.instance;
   final picker = ImagePicker();
-  var fileName = "Upload Profile Picture";
-  String downloadURL;
+  var fileName = 'Upload Profile Picture';
+  late String downloadURL;
 
   var _imageFile;
-  PickedFile image;
+  late PickedFile image;
 
+  // ignore: always_declare_return_types
   uploadImage(BuildContext context) async {
     PickedFile image = await picker.getImage(source: ImageSource.gallery);
     setState(() {
-      if (image != null) {
-        _imageFile = new File(image.path);
-        fileName = auth.currentUser.uid;
-      }
+      _imageFile = File(image.path);
+      fileName = auth.currentUser.uid;
     });
   }
 
+  // ignore: always_declare_return_types
   updatePicture() async {
     Reference storageReference =
-        FirebaseStorage.instance.ref().child("Profile Pictures/$fileName");
+        FirebaseStorage.instance.ref().child('Profile Pictures/$fileName');
+    // ignore: unused_local_variable
     final UploadTask uploadTask = storageReference.putFile(_imageFile);
   }
 
@@ -55,7 +61,7 @@ class _SetupProfilePageState extends State<SetupProfilePage> {
         _addressController.text,
         _phoneNumberController.text,
         _descriptionController.text);
-    Navigator.pushReplacement(
+    await Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => ProfilePage()));
   }
 
@@ -109,15 +115,15 @@ class _SetupProfilePageState extends State<SetupProfilePage> {
                 minWidth: double.infinity,
                 height: 50,
                 onPressed: () async {
-                  if (_key.currentState.validate()) {
-                    updateProfile(context);
+                  if (_key.currentState!.validate()) {
+                    await updateProfile(context);
                   }
                 },
                 color: Colors.teal[100],
                 elevation: 5,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(50)),
-                child: Text("Submit",
+                child: Text('Submit',
                     style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 18,
@@ -127,10 +133,10 @@ class _SetupProfilePageState extends State<SetupProfilePage> {
           ),
           TextButton(
               onPressed: () async {
-                Navigator.pushReplacement(context,
+                await Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => ProfilePage()));
               },
-              child: Text("Skip",
+              child: Text('Skip',
                   style: TextStyle(
                       color: Colors.white,
                       fontFamily: 'Montserrat',
@@ -140,7 +146,6 @@ class _SetupProfilePageState extends State<SetupProfilePage> {
     );
   }
 
-  @override
   Widget buildForm(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -153,10 +158,10 @@ class _SetupProfilePageState extends State<SetupProfilePage> {
                 TextFormField(
                   //USERNAME
                   validator: (value) {
-                    if (value.isEmpty) {
-                      return "This field is required";
+                    if (value!.isEmpty) {
+                      return 'This field is required';
                     } else if (value.length > 15) {
-                      return "Character limit reached (15 characters)";
+                      return 'Character limit reached (15 characters)';
                     } else {
                       return null;
                     }
@@ -169,7 +174,7 @@ class _SetupProfilePageState extends State<SetupProfilePage> {
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5),
-                        borderSide: BorderSide(color: Colors.teal[200])),
+                        borderSide: BorderSide(color: (Colors.teal[200])!)),
                     fillColor: Colors.teal[300],
                     filled: true,
                     hintText: 'Nickname',
@@ -183,10 +188,10 @@ class _SetupProfilePageState extends State<SetupProfilePage> {
                 SizedBox(height: 10),
                 TextFormField(
                   validator: (value) {
-                    if (value.isEmpty) {
-                      return "This field is required";
+                    if (value!.isEmpty) {
+                      return 'This field is required';
                     } else if (value.length > 60) {
-                      return "Character limit reached (60 characters)";
+                      return 'Character limit reached (60 characters)';
                     } else {
                       return null;
                     }
@@ -199,7 +204,7 @@ class _SetupProfilePageState extends State<SetupProfilePage> {
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5),
-                        borderSide: BorderSide(color: Colors.teal[200])),
+                        borderSide: BorderSide(color: (Colors.teal[200])!)),
                     fillColor: Colors.teal[300],
                     filled: true,
                     hintText: 'Address',
@@ -213,7 +218,7 @@ class _SetupProfilePageState extends State<SetupProfilePage> {
                 SizedBox(height: 10),
                 TextFormField(
                   validator: (value) {
-                    return validateMobile(value);
+                    return validateMobile(value!);
                   },
                   controller: _phoneNumberController,
                   style: TextStyle(
@@ -223,7 +228,7 @@ class _SetupProfilePageState extends State<SetupProfilePage> {
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5),
-                        borderSide: BorderSide(color: Colors.teal[200])),
+                        borderSide: BorderSide(color: (Colors.teal[200])!)),
                     fillColor: Colors.teal[300],
                     filled: true,
                     hintText: 'Contact Number',
@@ -242,10 +247,10 @@ class _SetupProfilePageState extends State<SetupProfilePage> {
                       maxLines: 2,
                       maxLength: 60,
                       validator: (value) {
-                        if (value.isEmpty) {
-                          return "This field is required";
+                        if (value!.isEmpty) {
+                          return 'This field is required';
                         } else if (value.length > 60) {
-                          return "Character limit reached (60 characters)";
+                          return 'Character limit reached (60 characters)';
                         } else {
                           return null;
                         }
@@ -258,7 +263,7 @@ class _SetupProfilePageState extends State<SetupProfilePage> {
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(5),
-                            borderSide: BorderSide(color: Colors.teal[200])),
+                            borderSide: BorderSide(color: (Colors.teal[200])!)),
                         fillColor: Colors.teal[300],
                         filled: true,
                         hintText: 'Description',
@@ -314,10 +319,12 @@ class _SetupProfilePageState extends State<SetupProfilePage> {
   }
 }
 
-String validateMobile(String value) {
+String? validateMobile(String value) {
+  // ignore: omit_local_variable_types
   String patttern = r'(^09[0-9]{9}$)';
-  RegExp regExp = new RegExp(patttern);
-  if (value.length == 0) {
+  // ignore: omit_local_variable_types
+  RegExp regExp = RegExp(patttern);
+  if (value.isEmpty) {
     return 'Please enter mobile number';
   } else if (!regExp.hasMatch(value)) {
     return 'Please enter valid 11 digit mobile number';
