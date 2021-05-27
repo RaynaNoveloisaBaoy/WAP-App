@@ -20,11 +20,10 @@ jobs:
         channel: 'stable'  
     - run: dart --version
     - run: dart pub outdated --mode=null-safety
-    - run: dart pub upgrade
-    - run: dart pub outdated --mode=null-safety
+    - run: dart pub upgrade --null-safety 
+
     
     - run: dart pub get
-    - run: dart pub outdated --mode=null-safety
     - run: dart migrate
     #- name: Get flutter dependencies.
     #- run: flutter --no-sound-null-safety
