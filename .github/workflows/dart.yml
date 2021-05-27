@@ -24,7 +24,7 @@ jobs:
           java-version: '12.x'
       - run: git clone https://github.com/flutter/flutter.git --depth 1 
       - run: echo "::add-path::$GITHUB_WORKSPACE/_flutter/bin"
-      - run: flutter upgrade
+      
       - run: flutter pub get
         working-directory: ./
       - run: flutter build ios --no-codesign
