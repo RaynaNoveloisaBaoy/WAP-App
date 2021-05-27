@@ -31,16 +31,16 @@ class _SearchPageState extends State<SearchPage> {
   Future<void> initState() async => super.initState();
 
   Future<void> getSearchData() async => searchedUsers.forEach((element) async {
-      await getUsersData(element).then((value) {
-        setState(() {
-          id.add(element);
-          usersUsername.add(userUsername);
-          usersName.add(userName);
-          usersPic.add(pic);
-          pic = AssetImage('assets/images/defaultPic.png');
+        await getUsersData(element).then((value) {
+          setState(() {
+            id.add(element);
+            usersUsername.add(userUsername);
+            usersName.add(userName);
+            usersPic.add(pic);
+            pic = AssetImage('assets/images/defaultPic.png');
+          });
         });
       });
-    });
 
   Future<void> getUsersData(String userid) async {
     if (!mounted) {
