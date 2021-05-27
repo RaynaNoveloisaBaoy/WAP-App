@@ -15,9 +15,9 @@ jobs:
           echo "$GITHUB_WORKSPACE/flutter/bin" >> $GITHUB_PATH
       - name: Run Checks # (3)
         run: |
-         
-          flutter clean
-          flutter update-packages
-          flutter upgrade --force
+          flutter channel beta 
+          flutter doctor 
+          flutter packages get
+          
           flutter pub get
         
