@@ -1,10 +1,13 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wap/database.dart';
 import 'package:wap/profilepage.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:image_picker/image_picker.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:firebase_storage/firebase_storage.dart';
 
 class EditProfile extends StatefulWidget {
@@ -13,17 +16,17 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
-  TextEditingController _firstnameController = TextEditingController();
-  TextEditingController _lastnameController = TextEditingController();
-  TextEditingController _bioController = TextEditingController();
-  TextEditingController _addressController = TextEditingController();
-  TextEditingController _nicknameController = TextEditingController();
-  TextEditingController _numberController = TextEditingController();
+  final TextEditingController _firstnameController = TextEditingController();
+  final TextEditingController _lastnameController = TextEditingController();
+  final TextEditingController _bioController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _nicknameController = TextEditingController();
+  final TextEditingController _numberController = TextEditingController();
 
   final _key = GlobalKey<FormState>();
   final FirebaseAuth auth = FirebaseAuth.instance;
   final picker = ImagePicker();
-  var fileName = "Upload Profile Picture";
+  var fileName = 'Upload Profile Picture';
   dynamic pic = AssetImage('assets/images/wap_logo.png');
 
   late File _imageFile;
@@ -36,27 +39,33 @@ class _EditProfileState extends State<EditProfile> {
     getPic();
   }
 
+  // ignore: always_declare_return_types
   uploadImage(BuildContext context) async {
     PickedFile image = await picker.getImage(source: ImageSource.gallery);
     setState(() {
+      // ignore: unnecessary_null_comparison
       if (image != null) {
-        _imageFile = new File(image.path);
+        _imageFile = File(image.path);
         pic = FileImage(_imageFile);
         fileName = auth.currentUser.uid;
       } else {}
     });
   }
 
+  // ignore: always_declare_return_types
   updatePicture() async {
     Reference storageReference =
-        FirebaseStorage.instance.ref().child("Profile Pictures/$fileName");
+        FirebaseStorage.instance.ref().child('Profile Pictures/$fileName');
+    // ignore: unused_local_variable
     final UploadTask uploadTask = storageReference.putFile(_imageFile);
   }
 
+  // ignore: always_declare_return_types
   updateProfile(BuildContext context) async {
     final FirebaseAuth auth = FirebaseAuth.instance;
     User user = auth.currentUser;
 
+    // ignore: unnecessary_null_comparison
     if (_imageFile != null) {
       await updatePicture().then((value) async {
         await DatabaseService(uid: user.uid)
@@ -88,6 +97,7 @@ class _EditProfileState extends State<EditProfile> {
     }
   }
 
+  // ignore: always_declare_return_types
   getPic() async {
     final User user = auth.currentUser;
     dynamic picc = await DatabaseService(uid: user.uid).getPicture();
@@ -134,7 +144,7 @@ class _EditProfileState extends State<EditProfile> {
                     child: Row(
                       children: [
                         Text(
-                          "Profile Picture",
+                          'Profile Picture',
                           style: TextStyle(
                             fontSize: 20,
                             color: Colors.black,
@@ -171,7 +181,7 @@ class _EditProfileState extends State<EditProfile> {
                 margin: EdgeInsets.only(left: 30, top: 20, bottom: 10),
                 child: Row(children: [
                   Text(
-                    "Public Details",
+                    'Public Details',
                     style: TextStyle(
                       fontSize: 20,
                       color: Colors.black,
@@ -248,7 +258,7 @@ class _EditProfileState extends State<EditProfile> {
                   controller: _firstnameController,
                   validator: (value) {
                     if (value!.length > 64) {
-                      return "Character limit reached (64 characters)";
+                      return 'Character limit reached (64 characters)';
                     } else {
                       return null;
                     }
@@ -260,8 +270,7 @@ class _EditProfileState extends State<EditProfile> {
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5),
-                        borderSide: BorderSide(color: (Colors.teal[200])!)
-                        ),
+                        borderSide: BorderSide(color: (Colors.teal[200])!)),
                     fillColor: Colors.teal[200],
                     filled: true,
                     hintText: 'First Name',
@@ -278,7 +287,7 @@ class _EditProfileState extends State<EditProfile> {
                   controller: _lastnameController,
                   validator: (value) {
                     if (value!.length > 32) {
-                      return "Character limit reached (32 characters)";
+                      return 'Character limit reached (32 characters)';
                     } else {
                       return null;
                     }
@@ -306,7 +315,7 @@ class _EditProfileState extends State<EditProfile> {
                   controller: _bioController,
                   validator: (value) {
                     if (value!.length > 60) {
-                      return "Character limit reached (60 characters)";
+                      return 'Character limit reached (60 characters)';
                     } else {
                       return null;
                     }
@@ -336,7 +345,7 @@ class _EditProfileState extends State<EditProfile> {
                   controller: _nicknameController,
                   validator: (value) {
                     if (value!.length > 32) {
-                      return "Character limit reached (32 characters)";
+                      return 'Character limit reached (32 characters)';
                     } else {
                       return null;
                     }
@@ -364,7 +373,7 @@ class _EditProfileState extends State<EditProfile> {
                   controller: _addressController,
                   validator: (value) {
                     if (value!.length > 64) {
-                      return "Character limit reached (64 characters)";
+                      return 'Character limit reached (64 characters)';
                     } else {
                       return null;
                     }
@@ -418,6 +427,7 @@ class _EditProfileState extends State<EditProfile> {
       ],
     );
   }
+
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
@@ -426,9 +436,11 @@ class _EditProfileState extends State<EditProfile> {
 }
 
 String? validateMobile(String value) {
-  String patttern = r'(^09[0-9]{9}$)';
-  RegExp regExp = new RegExp(patttern);
-  if (value.length == 0) {
+  String patttern;
+  patttern = r'(^09[0-9]{9}$)';
+  RegExp regExp;
+  regExp = RegExp(patttern);
+  if (value.isEmpty) {
     return null;
   } else if (!regExp.hasMatch(value)) {
     return 'Please enter valid 11 digit mobile number';
