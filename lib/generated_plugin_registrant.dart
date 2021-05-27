@@ -4,10 +4,15 @@
 
 // ignore_for_file: lines_longer_than_80_chars
 
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:cloud_firestore_web/cloud_firestore_web.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:file_picker/src/file_picker_web.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:firebase_auth_web/firebase_auth_web.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:firebase_core_web/firebase_core_web.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:firebase_storage_web/firebase_storage_web.dart';
 import 'package:shared_preferences_web/shared_preferences_web.dart';
 

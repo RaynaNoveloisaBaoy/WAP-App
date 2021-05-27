@@ -1,9 +1,12 @@
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wap/database.dart';
 import 'package:flutter/material.dart';
+// ignore: unused_import
 import 'package:wap/editprofile.dart';
+// ignore: unused_import
 import 'package:wap/settingsPage.dart';
 import 'package:wap/searchPage.dart';
 
@@ -16,12 +19,12 @@ class _HomePageState extends State<HomePage> {
   int selectedIndex = 0;
   final FirebaseAuth auth = FirebaseAuth.instance;
   int _selectedIndex = 0;
-  String un = "WAP USER";
-  String thisname = "WAP USER";
-  String bio = " ";
-  String address = "The user has not set this yet.";
-  String contact = "The user has not set this yet.";
-  String nickname = "The user has not set this yet.";
+  String un = 'WAP USER';
+  String thisname = 'WAP USER';
+  String bio = ' ';
+  String address = 'The user has not set this yet.';
+  String contact = 'The user has not set this yet.';
+  String nickname = 'The user has not set this yet.';
   dynamic pic = AssetImage('assets/images/defaultPic.png');
   ScrollController controller = ScrollController();
   bool isLoading = true;
@@ -41,6 +44,7 @@ class _HomePageState extends State<HomePage> {
     }, onError: (msg) {});
   }
 
+  // ignore: always_declare_return_types
   getUserData() async {
     if (!mounted) {
       return;
@@ -114,6 +118,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     var size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -122,7 +127,7 @@ class _HomePageState extends State<HomePage> {
         automaticallyImplyLeading: false,
         elevation: 1,
         title: Text(
-          "Home",
+          'Home',
           style: TextStyle(
             color: Colors.teal[500],
             fontFamily: 'Montserrat',
