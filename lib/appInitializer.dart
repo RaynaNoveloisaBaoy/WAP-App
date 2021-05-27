@@ -1,13 +1,16 @@
-//import 'package:firebase_auth/firebase_auth.dart';
-//import 'package:firebase_core/firebase_core.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:firebase_auth/firebase_auth.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:firebase_core/firebase_core.dart';
+// ignore: import_of_legacy_library_into_null_safe
+
 import 'package:flutter/material.dart';
 //import 'package:wap/searchedUser.dart';
 import 'package:wap/profilepage.dart';
 import 'package:wap/splash_screen.dart';
 
-class App extends StatelessWidget {
+// ignore: must_be_immutable
+mixin App implements StatelessWidget {
   // Create the initialization Future outside of `build`:
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
   AssetImage pic = AssetImage('assets/images/wap_logo.png');

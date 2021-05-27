@@ -1,12 +1,14 @@
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:recase/recase.dart';
 import 'package:flutter/material.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:firebase_storage/firebase_storage.dart';
 
 class DatabaseService {
   final String uid;
 
- DatabaseService({ required this.uid});
+  DatabaseService({required this.uid});
 
   final CollectionReference userslist =
       FirebaseFirestore.instance.collection('users');
@@ -62,15 +64,19 @@ class DatabaseService {
     }
   }
 
+  // ignore: always_declare_return_types
   addFollowing(String profileID) async {
+    // ignore: unused_local_variable
     final ud = await userslist.doc(uid).update({
       'following': FieldValue.arrayUnion([profileID])
     });
   }
 
+  // ignore: always_declare_return_types
   removeFollowing(String profileID) async {
     var val = [];
     val.add(profileID);
+    // ignore: unused_local_variable
     final ud = await userslist
         .doc(uid)
         .update({'following': FieldValue.arrayRemove(val)});
@@ -83,7 +89,7 @@ class DatabaseService {
   Future getUsername() async {
     try {
       DocumentSnapshot un = await userslist.doc(uid).get();
-      return un.get("username");
+      return un.get('username');
     } catch (e) {
       print(e.toString());
       return null;
@@ -94,7 +100,7 @@ class DatabaseService {
     try {
       DocumentSnapshot un = await userslist.doc(uid).get();
 
-      return ReCase(un.get("first name") + " " + un.get("last name")).titleCase;
+      return ReCase(un.get('first name') + ' ' + un.get('last name')).titleCase;
     } catch (e) {
       print(e.toString());
       return null;
@@ -104,7 +110,7 @@ class DatabaseService {
   Future getFName() async {
     try {
       DocumentSnapshot un = await userslist.doc(uid).get();
-      return ReCase(un.get("first name")).titleCase;
+      return ReCase(un.get('first name')).titleCase;
     } catch (e) {
       print(e.toString());
       return null;
@@ -114,7 +120,7 @@ class DatabaseService {
   Future getName2() async {
     try {
       DocumentSnapshot un = await userslist.doc(uid).get();
-      return ReCase(un.get("institution name")).titleCase;
+      return ReCase(un.get('institution name')).titleCase;
     } catch (e) {
       print(e.toString());
       return null;
@@ -124,48 +130,50 @@ class DatabaseService {
   Future getBio() async {
     try {
       DocumentSnapshot un = await userslist.doc(uid).get();
-      return un.get("bio");
+      return un.get('bio');
     } catch (e) {
       print(e.toString());
       return null;
     }
   }
 
+  // ignore: always_declare_return_types
   getNickname() async {
     try {
       DocumentSnapshot un = await userslist.doc(uid).get();
-      return ReCase(un.get("nickname")).titleCase;
+      return ReCase(un.get('nickname')).titleCase;
     } catch (e) {
       print(e.toString());
       return null;
     }
   }
 
-  getAddress() async {
+  Future getAddress() async {
     try {
       DocumentSnapshot un = await userslist.doc(uid).get();
-      return un.get("address");
+      return un.get('address');
     } catch (e) {
       print(e.toString());
       return null;
     }
   }
 
-  getContact() async {
+  Future getContact() async {
     try {
       DocumentSnapshot un = await userslist.doc(uid).get();
-      return un.get("contact number");
+      return un.get('contact number');
     } catch (e) {
       print(e.toString());
       return null;
     }
   }
 
+  // ignore: always_declare_return_types
   getPicture() async {
     try {
       final storageReference = await FirebaseStorage.instance
           .ref()
-          .child("Profile Pictures/$uid")
+          .child('Profile Pictures/$uid')
           .getData();
       return MemoryImage(storageReference);
     } catch (e) {
@@ -179,7 +187,7 @@ class DatabaseService {
 Future<bool> isUsernameAvailable(String username) async {
   final CollectionReference userslist =
       FirebaseFirestore.instance.collection('users');
-  userslist.get().then((QuerySnapshot querySnapshot) {
+  await userslist.get().then((QuerySnapshot querySnapshot) {
     querySnapshot.docs.forEach((doc) {
       if (doc['username'] == username) {
         //return false;
