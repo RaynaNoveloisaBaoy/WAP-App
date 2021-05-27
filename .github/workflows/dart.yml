@@ -17,9 +17,17 @@ jobs:
     - uses: subosito/flutter-action@v1
       with:
         channel: 'stable'  
-    # Get flutter packages
+    - name: Get flutter dependencies.
     - run: flutter pub get
-      working-directory: ./
-    - run: flutter build appbundle
+    
+    - name: Run tests for our flutter project once we add unit tests.
+    - run: flutter test
+    
+    - name: Build apk.
+    - run: flutter build apk
+    # found syntax errors in the sourcecode
+     # working-directory: ./
+    #- run: flutter build appbundle
    
+    
    
