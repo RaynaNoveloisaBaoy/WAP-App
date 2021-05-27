@@ -18,7 +18,9 @@ jobs:
     - uses: subosito/flutter-action@v1
       with:
         channel: 'stable'  
-    
+    - run: dart --version
+    - run: dart pub upgrade --null-safety
+    - run: dart pub get
     #- name: Get flutter dependencies.
     #- run: flutter --no-sound-null-safety
     - run: flutter pub get
