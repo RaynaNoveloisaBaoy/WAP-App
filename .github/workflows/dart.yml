@@ -20,7 +20,8 @@ jobs:
         channel: 'stable'  
     - run: dart --version
     - run: dart pub outdated --mode=null-safety
-    - run: dart pub upgrade --null-safety 
+  
+  #- run: dart pub upgrade --null-safety 
 
     
     - run: dart pub get
