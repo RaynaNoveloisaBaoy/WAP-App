@@ -13,7 +13,7 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   ScrollController controller = ScrollController();
   int _selectedIndex = 1;
   List<String> searchedUsers = [];
@@ -24,15 +24,13 @@ class _SearchPageState extends State<SearchPage> {
   bool searched = false;
   bool isLoading = false;
   dynamic pic = AssetImage('assets/images/defaultPic.png');
-  String userName;
-  String userUsername;
+  late String userName;
+  late String userUsername;
 
-  initState() {
-    super.initState();
-  }
+  @override
+  Future<void> initState() async => super.initState();
 
-  getSearchData() async {
-    searchedUsers.forEach((element) async {
+  Future<void> getSearchData() async => searchedUsers.forEach((element) async {
       await getUsersData(element).then((value) {
         setState(() {
           id.add(element);
@@ -43,18 +41,15 @@ class _SearchPageState extends State<SearchPage> {
         });
       });
     });
-  }
 
-  getUsersData(String userid) async {
+  Future<void> getUsersData(String userid) async {
     if (!mounted) {
       return;
     }
     final dbGet = DatabaseService(uid: userid);
     dynamic uname = await dbGet.getUsername();
     dynamic name1 = await dbGet.getName();
-    if (name1 == null) {
-      name1 = await dbGet.getName2();
-    }
+    name1 ??= await dbGet.getName2();
     var temp = await DatabaseService(uid: userid).getPicture();
     if (temp != null) {
       if (!mounted) {
@@ -112,7 +107,7 @@ class _SearchPageState extends State<SearchPage> {
         automaticallyImplyLeading: false,
         elevation: 1,
         title: Text(
-          "Search",
+          'Search',
           style: TextStyle(
             color: Colors.teal[500],
             fontFamily: 'Montserrat',
@@ -123,13 +118,13 @@ class _SearchPageState extends State<SearchPage> {
           child: Column(
         children: [
           buildForm(),
-          new SizedBox(height: 10),
+          SizedBox(height: 10),
           Padding(
             padding: EdgeInsets.all(5),
             child: searchedUsers.isEmpty
                 ? searched
                     ? Text(
-                        "No results found",
+                        'No results found',
                         style: TextStyle(
                           fontSize: 15,
                           color: Colors.black,
@@ -143,7 +138,7 @@ class _SearchPageState extends State<SearchPage> {
                       children: [
                         SizedBox(height: 10),
                         Text(
-                          "Search Results",
+                          'Search Results',
                           style: TextStyle(
                             fontSize: 15,
                             color: Colors.black,
@@ -239,7 +234,7 @@ class _SearchPageState extends State<SearchPage> {
                                                                         .length
                                                                 ? usersName[
                                                                     index]
-                                                                : "WAP USER",
+                                                                : 'WAP USER',
                                                             overflow:
                                                                 TextOverflow
                                                                     .ellipsis,
@@ -261,10 +256,10 @@ class _SearchPageState extends State<SearchPage> {
                                                                       .length ==
                                                                   searchedUsers
                                                                       .length
-                                                              ? "@" +
+                                                              ? '@' +
                                                                   usersUsername[
                                                                       index]
-                                                              : "@WAP_USER",
+                                                              : '@WAP_USER',
                                                           style: const TextStyle(
                                                               color:
                                                                   Colors.grey,

@@ -20,11 +20,11 @@ class _RegisterPageState extends State<InstitutionRegisterPage> {
   bool usernameTaken = false;
   bool emailTaken = false;
   late String pssword;
-  String errorMsg;
+  late String errorMsg;
   final _key = GlobalKey<FormState>();
 
   // ignore: always_declare_return_types
-  _registerUser async {
+  Future<_registerUser> async {
       final docSnap = await FirebaseFirestore.instance
           .collection('users')
           .where('username', isEqualTo: _newusernameController.text);
