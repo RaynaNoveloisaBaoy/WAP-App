@@ -755,6 +755,7 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
   }
 
   bool showDialogDelete(List<int> selectedIndex) {
+    // ignore: unused_local_variable
     bool flag;
     showDialog(
       context: context,

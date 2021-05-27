@@ -410,8 +410,8 @@ class _SearchPageState extends State<SearchPage> {
     });
     await docSnap3.get().then((value) async {
       await Future.forEach(value.docs, (doc) async {
-        if (!searchedUsers.contains(doc.id)) {
-          searchedUsers.add(doc.id);
+        if (!searchedUsers.contains(doc!.id)) {
+          searchedUsers.add(doc!.id);
         }
       });
     });

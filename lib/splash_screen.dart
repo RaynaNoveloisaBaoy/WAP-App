@@ -7,22 +7,24 @@ import 'package:wap/welcome_slider.dart';
 
 class Splash extends StatefulWidget {
   @override
-  SplashState createState() => new SplashState();
+  SplashState createState() => SplashState();
 }
 
 class SplashState extends State<Splash> with AfterLayoutMixin<Splash> {
   AssetImage pic = AssetImage('assets/images/wap_logo.png');
   Future checkFirstSeen() async {
+    // ignore: omit_local_variable_types
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    // ignore: omit_local_variable_types
     bool _seen = (prefs.getBool('seen') ?? false);
 
     if (_seen) {
-      Navigator.of(context).pushReplacement(
-          new MaterialPageRoute(builder: (context) => new LoginPage()));
+      await Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => LoginPage()));
     } else {
       await prefs.setBool('seen', true);
-      Navigator.of(context).pushReplacement(
-          new MaterialPageRoute(builder: (context) => new WelcomeSliderPage()));
+      await Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => WelcomeSliderPage()));
     }
   }
 
@@ -52,7 +54,7 @@ class SplashState extends State<Splash> with AfterLayoutMixin<Splash> {
                 height: 20,
               ),
               Text(
-                "CONNECTING TO THE APP",
+                'CONNECTING TO THE APP',
                 style: TextStyle(color: Colors.teal),
               )
             ])));

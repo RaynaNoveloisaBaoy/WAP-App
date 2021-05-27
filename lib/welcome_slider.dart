@@ -1,7 +1,10 @@
 import 'package:wap/login_page.dart';
 import 'package:flutter/material.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:intro_slider/dot_animation_enum.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:intro_slider/slide_object.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:intro_slider/intro_slider.dart';
 
 class WelcomeSliderPage extends StatefulWidget {
@@ -16,38 +19,41 @@ class _WelcomeSliderPageState extends State<WelcomeSliderPage> {
   void initState() {
     super.initState();
     slides.add(
-      new Slide(
-        title: "Welcome to WAP App",
+      Slide(
+        title: 'Welcome to WAP App',
         description:
-            "Hello there! We are pleased to meet you and excited for you to meet loving pets."
+            'Hello there! We are pleased to meet you and excited for you to meet loving pets.'
             '\n'
-            "But first let us learn about our WAP vision and mission",
-        pathImage: "assets/images/wap_logo.png",
+            'But first let us learn about our WAP vision and mission',
+        pathImage: 'assets/images/wap_logo.png',
       ),
     );
     slides.add(
-      new Slide(
-        title: "Mission",
+      Slide(
+        title: 'Mission',
         description:
-            "WAP Application aims to create a virtual community that ensures the protection and welfare of cats and dogs by helping them find secure and responsible adoptive homes.",
-        pathImage: "assets/images/4.png",
+            'WAP Application aims to create a virtual community that ensures the protection and welfare of cats and dogs by helping them find secure and responsible adoptive homes.',
+        pathImage: 'assets/images/4.png',
       ),
     );
     slides.add(
-      new Slide(
-        title: "Vision",
+      Slide(
+        title: 'Vision',
         description:
-            "Imagine a world in which every single pet can have the best protection and welfare that they deserve. That’s our commitment.",
-        pathImage: "assets/images/5.png",
+            'Imagine a world in which every single pet can have the best protection and welfare that they deserve. That’s our commitment.',
+        pathImage: 'assets/images/5.png',
       ),
     );
   }
 
   List<Widget> renderListCustomTabs() {
-    List<Widget> tabs = [];
+    List<Widget> tabs;
+    tabs = [];
 
+    // ignore: omit_local_variable_types
     for (int i = 0; i < slides.length; i++) {
-      Slide currentSlide = slides[i];
+      Slide currentSlide;
+      currentSlide = slides[i];
       tabs.add(
         Container(
           width: double.infinity,
@@ -117,20 +123,20 @@ class _WelcomeSliderPageState extends State<WelcomeSliderPage> {
   Widget build(BuildContext context) {
     return IntroSlider(
       backgroundColorAllSlides: Colors.teal[400],
-      renderSkipBtn: Text("Skip"),
+      renderSkipBtn: Text('Skip'),
       renderNextBtn: Text(
-        "Next",
+        'Next',
         style: TextStyle(color: Colors.green[700]),
       ),
       renderDoneBtn: Text(
-        "Done",
+        'Done',
         style: TextStyle(color: Colors.green[700]),
       ),
       colorDoneBtn: Colors.white,
       colorActiveDot: Colors.white,
       sizeDot: 8.0,
       typeDotAnimation: dotSliderAnimation.SIZE_TRANSITION,
-      listCustomTabs: this.renderListCustomTabs(),
+      listCustomTabs: renderListCustomTabs(),
       scrollPhysics: BouncingScrollPhysics(),
       shouldHideStatusBar: false,
       onDonePress: () {

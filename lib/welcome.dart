@@ -11,11 +11,11 @@ class _WelcomePageState extends State<WelcomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green[700],
-        title: Text("Welcome Page title"),
+        title: Text('Welcome Page title'),
       ),
       body: Container(
           child: Center(
-        child: Text("Welcome Page content"),
+        child: Text('Welcome Page content'),
       )),
     );
   }

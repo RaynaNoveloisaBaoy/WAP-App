@@ -1,3 +1,4 @@
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wap/login_page.dart';
@@ -58,7 +59,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         height: 50,
                         onPressed: () async {
                           await FirebaseAuth.instance.signOut();
-                          Navigator.push(
+                          await Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => LoginPage(),
@@ -68,7 +69,7 @@ class _SettingsPageState extends State<SettingsPage> {
                         elevation: 5,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(50)),
-                        child: Text("SIGN OUT",
+                        child: Text('SIGN OUT',
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 18,
