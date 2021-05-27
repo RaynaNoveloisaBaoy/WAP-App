@@ -18,13 +18,12 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.12.0-0 <3.0.0"
+  sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
   responsive_framework: ^0.1.0
   flutter:
     sdk: flutter
- 
   firebase_core: "0.7.0"
   cloud_firestore: ^0.16.0+1
   firebase_auth: "0.20.1"
@@ -33,7 +32,7 @@ dependencies:
   flutter_spinkit: "^4.1.2"
   image_picker: 
   image_cropper:
-  path: ^1.6.4
+  path: ^1.8.0
   file_picker:
   
   # The following adds the Cupertino Icons font to your application.
@@ -42,13 +41,12 @@ dependencies:
   intro_slider: ^2.3.4
   firebase_storage:
   permission_handler: ^5.0.1+1
-  recase:
+  recase: ^4.0.0
   emoji_picker: ^0.0.2
   
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  pedantic: ^1.9.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
