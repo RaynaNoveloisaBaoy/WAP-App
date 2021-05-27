@@ -1,4 +1,6 @@
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:cloud_firestore/cloud_firestore.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wap/database.dart';
 import 'package:flutter/material.dart';
@@ -393,7 +395,8 @@ class _SearchPageState extends State<SearchPage> {
 
     await docSnap.get().then((value) async {
       await Future.forEach(value.docs, (doc) async {
-        if (!searchedUsers.contains(doc!.id)) {
+        var id = id;
+        if (!searchedUsers.contains(doc!.id())) {
           searchedUsers.add(doc.id);
         }
       });
@@ -413,4 +416,6 @@ class _SearchPageState extends State<SearchPage> {
       });
     });
   }
+
+  id() => id;
 }

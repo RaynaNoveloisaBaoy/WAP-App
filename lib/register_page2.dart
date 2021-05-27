@@ -1,5 +1,8 @@
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:firebase_auth/firebase_auth.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:wap/database.dart';
@@ -11,11 +14,11 @@ class InstitutionRegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<InstitutionRegisterPage> {
-  TextEditingController _newinstinameController = TextEditingController();
-  TextEditingController _newusernameController = TextEditingController();
-  TextEditingController _newemailController = TextEditingController();
-  TextEditingController _newpasswordController = TextEditingController();
-  TextEditingController _confirmpasswordController = TextEditingController();
+  final TextEditingController _newinstinameController = TextEditingController();
+  final TextEditingController _newusernameController = TextEditingController();
+  final TextEditingController _newemailController = TextEditingController();
+  final TextEditingController _newpasswordController = TextEditingController();
+  final TextEditingController _confirmpasswordController = TextEditingController();
   bool accepted = false;
   bool usernameTaken = false;
   bool emailTaken = false;
@@ -85,16 +88,16 @@ class _RegisterPageState extends State<InstitutionRegisterPage> {
           builder: (BuildContext context) {
             return AlertDialog(
               title: Text(
-                "Registration Error",
+                'Registration Error',
                 textAlign: TextAlign.center,
               ),
               content: Text(
-                "Username is already taken",
+                'Username is already taken',
                 textAlign: TextAlign.center,
               ),
               actions: <Widget>[
                 MaterialButton(
-                  child: new Text("OK"),
+                  child: Text('OK'),
                   color: Colors.teal[100],
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -223,7 +226,7 @@ class _RegisterPageState extends State<InstitutionRegisterPage> {
                       if (value!.isEmpty) {
                         return 'Username is required';
                       } else if (usernameTaken) {
-                        return "Username is already used";
+                        return 'Username is already used';
                       } else {
                         return null;
                       }
@@ -236,7 +239,7 @@ class _RegisterPageState extends State<InstitutionRegisterPage> {
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5),
-                          borderSide: BorderSide(color: Colors.teal[200])),
+                          borderSide: BorderSide(color: (Colors.teal[200])!)),
                       fillColor: Colors.teal[300],
                       filled: true,
                       hintText: 'Username',
@@ -252,10 +255,10 @@ class _RegisterPageState extends State<InstitutionRegisterPage> {
                   TextFormField(
                     //EMAIL
                     validator: (value) {
-                      if (value.isEmpty) {
-                        return "Email is required";
+                      if (value!.isEmpty) {
+                        return 'Email is required';
                       } else if (emailTaken) {
-                        return "Email is already used";
+                        return 'Email is already used';
                       } else {
                         return errorMsg;
                       }
@@ -268,7 +271,7 @@ class _RegisterPageState extends State<InstitutionRegisterPage> {
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5),
-                          borderSide: BorderSide(color: Colors.teal[200])),
+                          borderSide: BorderSide(color: (Colors.teal[200])!)),
                       fillColor: Colors.teal[300],
                       filled: true,
                       hintText: 'Email',
@@ -283,10 +286,10 @@ class _RegisterPageState extends State<InstitutionRegisterPage> {
                   TextFormField(
                     //PASSWORD
                     validator: (value) {
-                      if (value.isEmpty) {
-                        return "Password is required";
+                      if (value!.isEmpty) {
+                        return 'Password is required';
                       } else if (value.length < 6) {
-                        return "Password should be at least 6 characters";
+                        return 'Password should be at least 6 characters';
                       } else {
                         return null;
                       }
@@ -300,7 +303,7 @@ class _RegisterPageState extends State<InstitutionRegisterPage> {
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5),
-                          borderSide: BorderSide(color: Colors.teal[200])),
+                          borderSide: BorderSide(color: (Colors.teal[200])!)),
                       fillColor: Colors.teal[300],
                       filled: true,
                       hintText: 'Password',
@@ -315,11 +318,11 @@ class _RegisterPageState extends State<InstitutionRegisterPage> {
                   TextFormField(
                     //CONFIRM PASSWORD
                     validator: (value) {
-                      if (value.isEmpty) {
-                        return "Password is required";
+                      if (value!.isEmpty) {
+                        return 'Password is required';
                       } else if (_newpasswordController.text !=
                           _confirmpasswordController.text) {
-                        return "Password does not match";
+                        return 'Password does not match';
                       } else {
                         return null;
                       }
@@ -333,7 +336,7 @@ class _RegisterPageState extends State<InstitutionRegisterPage> {
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5),
-                          borderSide: BorderSide(color: Colors.teal[200])),
+                          borderSide: BorderSide(color: (Colors.teal[200])!)),
                       fillColor: Colors.teal[300],
                       filled: true,
                       hintText: 'Confirm Password',
@@ -381,7 +384,8 @@ class _RegisterPageState extends State<InstitutionRegisterPage> {
   class _registerUser {
 }
 
-createTC(BuildContext context) {
+Future createTC(BuildContext context) {
+  // ignore: omit_local_variable_types
   final ScrollController _scrollController = ScrollController();
 
   return showDialog(
@@ -404,7 +408,7 @@ createTC(BuildContext context) {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       SizedBox(height: 40),
-                      Text("Terms and Conditions",
+                      Text('Terms and Conditions',
                           style: TextStyle(
                               fontFamily: 'Fredoka One',
                               fontSize: 25,
@@ -421,7 +425,7 @@ createTC(BuildContext context) {
                                 return Card(
                                     child: ListTile(
                                   title: Text(
-                                      "These terms and conditions set forth the general terms and conditions of your use of the We Adopt Pets mobile application or WAP App and any of its related products and services. By accessing and using the Mobile Application and Services, you acknowledge that you have read, understood, and agree to be bound by the terms of this Agreement. If you do not agree with the terms of this Agreement, you must not accept this Agreement and may not access and use the WAP App and Services. You acknowledge that this Agreement is a contract between you and the Operator, even though it is electronic and is not physically signed by you, and it governs your use of the Mobile Application and Services. \n",
+                                      'These terms and conditions set forth the general terms and conditions of your use of the We Adopt Pets mobile application or WAP App and any of its related products and services. By accessing and using the Mobile Application and Services, you acknowledge that you have read, understood, and agree to be bound by the terms of this Agreement. If you do not agree with the terms of this Agreement, you must not accept this Agreement and may not access and use the WAP App and Services. You acknowledge that this Agreement is a contract between you and the Operator, even though it is electronic and is not physically signed by you, and it governs your use of the Mobile Application and Services. \n',
                                       style: TextStyle(
                                           color: Colors.black87,
                                           fontSize: 12,
@@ -431,7 +435,7 @@ createTC(BuildContext context) {
                                   subtitle: Column(
                                     children: <Widget>[
                                       Text(
-                                        "ACCOUNTS AND MEMBERSHIP",
+                                        'ACCOUNTS AND MEMBERSHIP',
                                         style: TextStyle(
                                             color: Colors.black87,
                                             fontSize: 12,
@@ -440,7 +444,7 @@ createTC(BuildContext context) {
                                       ),
                                       SizedBox(height: 10),
                                       Text(
-                                        "If you create an account in the WAP App, you are responsible for maintaining the security of your account and you are fully responsible for all activities that occur under the account and any other actions taken in connection with it. We may, but have no obligation to, monitor and review new accounts before you may sign in and start using the Services. Providing false contact information of any kind may cause the termination of your account. You must immediately notify us of any unauthorized uses of your account or any other breaches of security. We will not be liable for any acts or omissions by you, including any damages of any kind incurred because of such acts or omissions. We may suspend, disable, or delete your account (or any part thereof) if we determine that you have violated any provision of this agreement or that your conduct or content would damage our reputation and goodwill. If we delete your account for the foregoing reasons, you may not re-register for our Services. We may block your email address and Internet protocol address to prevent further registration. \n",
+                                        'If you create an account in the WAP App, you are responsible for maintaining the security of your account and you are fully responsible for all activities that occur under the account and any other actions taken in connection with it. We may, but have no obligation to, monitor and review new accounts before you may sign in and start using the Services. Providing false contact information of any kind may cause the termination of your account. You must immediately notify us of any unauthorized uses of your account or any other breaches of security. We will not be liable for any acts or omissions by you, including any damages of any kind incurred because of such acts or omissions. We may suspend, disable, or delete your account (or any part thereof) if we determine that you have violated any provision of this agreement or that your conduct or content would damage our reputation and goodwill. If we delete your account for the foregoing reasons, you may not re-register for our Services. We may block your email address and Internet protocol address to prevent further registration. \n',
                                         style: TextStyle(
                                             color: Colors.black87,
                                             fontSize: 12,
@@ -450,7 +454,7 @@ createTC(BuildContext context) {
                                       ),
                                       SizedBox(height: 10),
                                       Text(
-                                        "USER CONTENT",
+                                        'USER CONTENT',
                                         style: TextStyle(
                                             color: Colors.black87,
                                             fontSize: 12,
@@ -459,7 +463,7 @@ createTC(BuildContext context) {
                                       ),
                                       SizedBox(height: 10),
                                       Text(
-                                        "We do not own any data, information or content that you submit in the WAP App in the course of using the Service. You shall have sole responsibility for the accuracy, quality, integrity, legality, reliability, appropriateness, and intellectual property ownership or right to use of all submitted Content. We may monitor and review the Content in the WAP App submitted or created using our Services by you. You grant us permission to access, copy, distribute, store, transmit, reformat, display and perform the Content of your user account solely as required for the purpose of providing the Services to you. Without limiting any of those representations or warranties, we have the right, though not the obligation, to, in our own sole discretion, refuse or remove any Content that, in our reasonable opinion, violates any of our policies or is in any way harmful or objectionable. Unless specifically permitted by you, your use of the WAP App and Services does not grant us the license to use, reproduce, adapt, modify, publish or distribute the Content created by you or stored in your user account for commercial, marketing or any similar purpose. \n",
+                                        'We do not own any data, information or content that you submit in the WAP App in the course of using the Service. You shall have sole responsibility for the accuracy, quality, integrity, legality, reliability, appropriateness, and intellectual property ownership or right to use of all submitted Content. We may monitor and review the Content in the WAP App submitted or created using our Services by you. You grant us permission to access, copy, distribute, store, transmit, reformat, display and perform the Content of your user account solely as required for the purpose of providing the Services to you. Without limiting any of those representations or warranties, we have the right, though not the obligation, to, in our own sole discretion, refuse or remove any Content that, in our reasonable opinion, violates any of our policies or is in any way harmful or objectionable. Unless specifically permitted by you, your use of the WAP App and Services does not grant us the license to use, reproduce, adapt, modify, publish or distribute the Content created by you or stored in your user account for commercial, marketing or any similar purpose. \n',
                                         style: TextStyle(
                                             color: Colors.black87,
                                             fontSize: 12,
@@ -469,7 +473,7 @@ createTC(BuildContext context) {
                                       ),
                                       SizedBox(height: 10),
                                       Text(
-                                        "BACKUPS",
+                                        'BACKUPS',
                                         style: TextStyle(
                                             color: Colors.black87,
                                             fontSize: 12,
@@ -478,7 +482,7 @@ createTC(BuildContext context) {
                                       ),
                                       SizedBox(height: 10),
                                       Text(
-                                        "We perform regular backups of the Content and will do our best to ensure completeness and accuracy of these backups. In the event of the hardware failure or data loss we will restore backups automatically to minimize the impact and downtime. \n",
+                                        'We perform regular backups of the Content and will do our best to ensure completeness and accuracy of these backups. In the event of the hardware failure or data loss we will restore backups automatically to minimize the impact and downtime. \n',
                                         style: TextStyle(
                                             color: Colors.black87,
                                             fontSize: 12,
@@ -488,7 +492,7 @@ createTC(BuildContext context) {
                                       ),
                                       SizedBox(height: 10),
                                       Text(
-                                        "PROHIBITED USES",
+                                        'PROHIBITED USES',
                                         style: TextStyle(
                                             color: Colors.black87,
                                             fontSize: 12,
@@ -497,7 +501,7 @@ createTC(BuildContext context) {
                                       ),
                                       SizedBox(height: 10),
                                       Text(
-                                        "In addition to other terms as set forth in the Agreement, you are prohibited from using the Mobile Application and Services or Content: (a) for any unlawful purpose; (b) to solicit others to perform or participate in any unlawful acts; (c) to violate any international, federal, provincial or state regulations, rules, laws, or local ordinances; (d) to infringe upon or violate our intellectual property rights or the intellectual property rights of others; (e) to harass, abuse, insult, harm, defame, slander, disparage, intimidate, or discriminate based on gender, sexual orientation, religion, ethnicity, race, age, national origin, or disability; (f) to submit false or misleading information; (g) to upload or transmit viruses or any other type of malicious code that will or may be used in any way that will affect the functionality or operation of the Mobile Application and Services, third-party products and services, or the Internet; (h) to spam, phish, pharm, pretext, spider, crawl, or scrape; (i) for any obscene or immoral purpose; or (j) to interfere with or circumvent the security features of the Mobile Application and Services. We reserve the right to end your use of the WAP App  and Services for violating any of the prohibited uses. \n",
+                                        'In addition to other terms as set forth in the Agreement, you are prohibited from using the Mobile Application and Services or Content: (a) for any unlawful purpose; (b) to solicit others to perform or participate in any unlawful acts; (c) to violate any international, federal, provincial or state regulations, rules, laws, or local ordinances; (d) to infringe upon or violate our intellectual property rights or the intellectual property rights of others; (e) to harass, abuse, insult, harm, defame, slander, disparage, intimidate, or discriminate based on gender, sexual orientation, religion, ethnicity, race, age, national origin, or disability; (f) to submit false or misleading information; (g) to upload or transmit viruses or any other type of malicious code that will or may be used in any way that will affect the functionality or operation of the Mobile Application and Services, third-party products and services, or the Internet; (h) to spam, phish, pharm, pretext, spider, crawl, or scrape; (i) for any obscene or immoral purpose; or (j) to interfere with or circumvent the security features of the Mobile Application and Services. We reserve the right to end your use of the WAP App  and Services for violating any of the prohibited uses. \n',
                                         style: TextStyle(
                                             color: Colors.black87,
                                             fontSize: 12,
@@ -507,7 +511,7 @@ createTC(BuildContext context) {
                                       ),
                                       SizedBox(height: 10),
                                       Text(
-                                        "INTELLECTUAL PROPERTY RIGHTS",
+                                        'INTELLECTUAL PROPERTY RIGHTS',
                                         style: TextStyle(
                                             color: Colors.black87,
                                             fontSize: 12,
@@ -516,7 +520,7 @@ createTC(BuildContext context) {
                                       ),
                                       SizedBox(height: 10),
                                       Text(
-                                        "Intellectual Property Rights means all present and future rights conferred by statute, common law or equity in or in relation to any copyright and related rights, trademarks, designs, patents, inventions, goodwill and the right to sue for passing off, rights to inventions, rights to use, and all other intellectual property rights, in each case whether registered or unregistered and including all applications and rights to apply for and be granted, rights to claim priority from, such rights and all similar or equivalent rights or forms of protection and any other results of intellectual activity which subsist or will subsist now or in the future in any part of the world. This Agreement does not transfer to you any intellectual property owned by the Operator or third parties, and all rights, titles, and interests in and to such property will remain solely with the Operator. All trademarks, service marks, graphics and logos used in connection with the Mobile Application and Services, are trademarks or registered trademarks of the Operator or its licensors. Other trademarks, service marks, graphics and logos used in connection with the WAP App and Services may be the trademarks of other third parties. Your use of the Mobile Application and Services grants you no right or license to reproduce or otherwise use any of the Operator or third party trademarks. \n",
+                                        'Intellectual Property Rights means all present and future rights conferred by statute, common law or equity in or in relation to any copyright and related rights, trademarks, designs, patents, inventions, goodwill and the right to sue for passing off, rights to inventions, rights to use, and all other intellectual property rights, in each case whether registered or unregistered and including all applications and rights to apply for and be granted, rights to claim priority from, such rights and all similar or equivalent rights or forms of protection and any other results of intellectual activity which subsist or will subsist now or in the future in any part of the world. This Agreement does not transfer to you any intellectual property owned by the Operator or third parties, and all rights, titles, and interests in and to such property will remain solely with the Operator. All trademarks, service marks, graphics and logos used in connection with the Mobile Application and Services, are trademarks or registered trademarks of the Operator or its licensors. Other trademarks, service marks, graphics and logos used in connection with the WAP App and Services may be the trademarks of other third parties. Your use of the Mobile Application and Services grants you no right or license to reproduce or otherwise use any of the Operator or third party trademarks. \n',
                                         style: TextStyle(
                                             color: Colors.black87,
                                             fontSize: 12,
@@ -526,7 +530,7 @@ createTC(BuildContext context) {
                                       ),
                                       SizedBox(height: 10),
                                       Text(
-                                        "LIMITATION OF LIABILITY",
+                                        'LIMITATION OF LIABILITY',
                                         style: TextStyle(
                                             color: Colors.black87,
                                             fontSize: 12,
@@ -535,7 +539,7 @@ createTC(BuildContext context) {
                                       ),
                                       SizedBox(height: 10),
                                       Text(
-                                        "To the fullest extent permitted by applicable law, in no event will the Operator, its affiliates, or licensors be liable to any person for any indirect, incidental, special, punitive, cover or consequential damages (including, without limitation, damages for use of content) however caused, under any theory of liability, including, without limitation, contract, tort, warranty, breach of statutory duty, negligence or otherwise, even if the liable party has been advised as to the possibility of such damages or could have foreseen such damages. The limitations and exclusions also apply if this remedy does not fully compensate you for any losses or fails of its essential purpose. \n",
+                                        'To the fullest extent permitted by applicable law, in no event will the Operator, its affiliates, or licensors be liable to any person for any indirect, incidental, special, punitive, cover or consequential damages (including, without limitation, damages for use of content) however caused, under any theory of liability, including, without limitation, contract, tort, warranty, breach of statutory duty, negligence or otherwise, even if the liable party has been advised as to the possibility of such damages or could have foreseen such damages. The limitations and exclusions also apply if this remedy does not fully compensate you for any losses or fails of its essential purpose. \n',
                                         style: TextStyle(
                                             color: Colors.black87,
                                             fontSize: 12,
@@ -545,7 +549,7 @@ createTC(BuildContext context) {
                                       ),
                                       SizedBox(height: 10),
                                       Text(
-                                        "CHANGES AND AMMENDMENTS",
+                                        'CHANGES AND AMMENDMENTS',
                                         style: TextStyle(
                                             color: Colors.black87,
                                             fontSize: 12,
@@ -554,7 +558,7 @@ createTC(BuildContext context) {
                                       ),
                                       SizedBox(height: 10),
                                       Text(
-                                        "We reserve the right to modify this Agreement or its terms relating to the WAP App and Services at any time, effective upon posting of an updated version of this Agreement in the WAP App. When we do, we will send you an email to notify you. Continued use of the WAP App and Services after any such changes shall constitute your consent to such changes. \n",
+                                        'We reserve the right to modify this Agreement or its terms relating to the WAP App and Services at any time, effective upon posting of an updated version of this Agreement in the WAP App. When we do, we will send you an email to notify you. Continued use of the WAP App and Services after any such changes shall constitute your consent to such changes. \n',
                                         style: TextStyle(
                                             color: Colors.black87,
                                             fontSize: 12,
@@ -564,7 +568,7 @@ createTC(BuildContext context) {
                                       ),
                                       SizedBox(height: 10),
                                       Text(
-                                        "CONTACT US",
+                                        'CONTACT US',
                                         style: TextStyle(
                                             color: Colors.black87,
                                             fontSize: 12,
@@ -573,7 +577,7 @@ createTC(BuildContext context) {
                                       ),
                                       SizedBox(height: 10),
                                       Text(
-                                        "If you would like to contact us to understand more about this Agreement or wish to contact us concerning any matter relating to it, you may send an email to weadoptpets@gmail.com. \n\nThis document was last updated on March 22, 2021.",
+                                        'If you would like to contact us to understand more about this Agreement or wish to contact us concerning any matter relating to it, you may send an email to weadoptpets@gmail.com. \n\nThis document was last updated on March 22, 2021.',
                                         style: TextStyle(
                                             color: Colors.black87,
                                             fontSize: 12,
@@ -593,7 +597,7 @@ createTC(BuildContext context) {
                           elevation: 5,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(100)),
-                          child: Text("Done",
+                          child: Text('Done',
                               style: TextStyle(fontFamily: 'Montserrat')),
                           onPressed: () {
                             Navigator.pop(context);
