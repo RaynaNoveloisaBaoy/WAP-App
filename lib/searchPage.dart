@@ -372,6 +372,7 @@ class _SearchPageState extends State<SearchPage> {
         ]);
   }
 
+  // ignore: always_declare_return_types
   retrieveUsers(String keyword) async {
     setState(() {
       keyword = keyword.toLowerCase();
@@ -380,19 +381,19 @@ class _SearchPageState extends State<SearchPage> {
     final docSnap = FirebaseFirestore.instance
         .collection('users')
         .where('first name', isGreaterThanOrEqualTo: keyword)
-        .where('first name', isLessThan: keyword + "z");
+        .where('first name', isLessThan: keyword + 'z');
     final docSnap2 = FirebaseFirestore.instance
         .collection('users')
         .where('last name', isGreaterThanOrEqualTo: keyword)
-        .where('last name', isLessThan: keyword + "z");
+        .where('last name', isLessThan: keyword + 'z');
     final docSnap3 = FirebaseFirestore.instance
         .collection('users')
         .where('username', isGreaterThanOrEqualTo: keyword)
-        .where('username', isLessThan: keyword + "z");
+        .where('username', isLessThan: keyword + 'z');
 
     await docSnap.get().then((value) async {
       await Future.forEach(value.docs, (doc) async {
-        if (!searchedUsers.contains(doc.id)) {
+        if (!searchedUsers.contains(doc!.id)) {
           searchedUsers.add(doc.id);
         }
       });

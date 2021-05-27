@@ -90,21 +90,21 @@ class _RegisterPageState extends State<PersonalRegisterPage> {
         );
       }
     } else {
-      showDialog(
+      await showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: new Text(
-              "Registration Error",
+            title: Text(
+              'Registration Error',
               textAlign: TextAlign.center,
             ),
             content: Text(
-              "Username is already taken",
+              'Username is already taken',
               textAlign: TextAlign.center,
             ),
             actions: <Widget>[
               MaterialButton(
-                child: new Text("OK"),
+                child: Text('OK'),
                 color: Colors.teal[100],
                 onPressed: () {
                   Navigator.of(context).pop();

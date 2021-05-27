@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:wap/database.dart';
 import 'package:flutter/material.dart';
-import 'package:wap/editprofile.dart';
-import 'package:wap/settingsPage.dart';
+
+import 'package:wap/database.dart';
 import 'package:wap/home_page.dart';
 import 'package:wap/profilepage.dart';
 import 'package:wap/searchPage.dart';
+import 'package:wap/settingsPage.dart';
 
 class PublicProfilePage extends StatefulWidget {
   final String userID;
@@ -19,13 +19,13 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   int selectedIndex = 0;
   int _selectedIndex = 1;
-  String un = "WAP USER";
-  String thisname = "WAP USER";
-  String firstname = "WAP USER";
-  String bio = " ";
-  String address = "The user has not set this yet.";
-  String contact = "The user has not set this yet.";
-  String nickname = "The user has not set this yet.";
+  String un = 'WAP USER';
+  String thisname = 'WAP USER';
+  String firstname = 'WAP USER';
+  String bio = ' ';
+  String address = 'The user has not set this yet.';
+  String contact = 'The user has not set this yet.';
+  String nickname = 'The user has not set this yet.';
   dynamic pic = AssetImage('assets/images/defaultPic.png');
   ScrollController controller = ScrollController();
   List<Widget> petsData = [];
@@ -36,7 +36,7 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
   //sample data of pet profiles
   var PET_LIST = [
     {
-      "name": "SAMPLE_1",
+      'name': 'SAMPLE_1',
       "breed": "Breed",
       "age": "Age",
       "image": "defaultPic.png"
