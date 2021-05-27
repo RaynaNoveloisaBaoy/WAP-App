@@ -1,4 +1,6 @@
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:cloud_firestore/cloud_firestore.dart';
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -31,40 +33,42 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
   List<Widget> petsData = [];
   bool isLoading = true;
   bool following = true;
-  List<bool> _isChecked;
+  late List<bool> _isChecked;
 
   //sample data of pet profiles
   var PET_LIST = [
     {
       'name': 'SAMPLE_1',
-      "breed": "Breed",
-      "age": "Age",
-      "image": "defaultPic.png"
+      'breed': 'Breed',
+      'age': 'Age',
+      'image': 'defaultPic.png'
     },
     {
-      "name": "SAMPLE_2",
-      "breed": "Breed",
-      "age": "Age",
-      "image": "defaultPic.png"
+      'name': 'SAMPLE_2',
+      'breed': 'Breed',
+      'age': 'Age',
+      'image': 'defaultPic.png'
     },
     {
-      "name": "SAMPLE_3",
-      "breed": "Breed",
-      "age": "Age",
-      "image": "defaultPic.png"
+      'name': 'SAMPLE_3',
+      'breed': 'Breed',
+      'age': 'Age',
+      'image': 'defaultPic.png'
     },
     {
-      "name": "SAMPLE_4",
-      "breed": "Breed",
-      "age": "Age",
-      "image": "defaultPic.png"
+      'name': 'SAMPLE_4',
+      'breed': 'Breed',
+      'age': 'Age',
+      'image': 'defaultPic.png'
     }
   ];
 
-  initState() {
+  @override
+  // ignore: always_declare_return_types
+  initState() async {
     super.initState();
     searchFollowing();
-    getUserData().then((value) {
+    await getUserData().then((value) {
       setState(() {
         isLoading = false;
       });
@@ -72,7 +76,7 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
     _isChecked = List<bool>.filled(PET_LIST.length, false, growable: true);
   }
 
-  getUserData() async {
+  Future<void> getUserData() async {
     if (!mounted) {
       return;
     }
@@ -114,6 +118,7 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
     }
   }
 
+  // ignore: always_declare_return_types
   searchFollowing() async {
     final CollectionReference userslist =
         FirebaseFirestore.instance.collection('users');
@@ -124,12 +129,14 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
     });
   }
 
+  // ignore: always_declare_return_types
   addFollowing() async {
     final User user = auth.currentUser;
     final dbGet = DatabaseService(uid: user.uid);
     dbGet.addFollowing(widget.userID);
   }
 
+  // ignore: always_declare_return_types
   removeFollowing() async {
     print('deleting');
     final User user = auth.currentUser;
@@ -191,7 +198,7 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
       ),
       body: isLoading
           ? LinearProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.teal[900]),
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.teal[900]!),
               backgroundColor: Colors.white,
             )
           : ListView(
@@ -287,7 +294,7 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
                           final snackBar = SnackBar(
                             backgroundColor: Colors.teal,
                             content: !following
-                                ? Text("Oh no! You unfollowed " + firstname)
+                                ? Text('Oh no! You unfollowed ' + firstname)
                                 : Text("Yay! You're following " + firstname),
                           );
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -314,7 +321,7 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
                           final snackBar = SnackBar(
                               backgroundColor: Colors.teal,
                               content:
-                                  Text("This feature is not available yet"));
+                                  Text('This feature is not available yet'));
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         },
                         shape: RoundedRectangleBorder(
@@ -339,7 +346,7 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
                           final snackBar = SnackBar(
                               backgroundColor: Colors.teal,
                               content:
-                                  Text("This feature is not available yet"));
+                                  Text('This feature is not available yet'));
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         },
                         shape: RoundedRectangleBorder(
@@ -375,7 +382,7 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
                             color: Colors.teal,
                           ),
                           onPressed: () {
-                            print("Display Posts"); //FROM DB
+                            print('Display Posts'); //FROM DB
                             setState(() {
                               selectedIndex = 0;
                             });
@@ -390,7 +397,7 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
                             color: Colors.teal,
                           ),
                           onPressed: () {
-                            print("Display Pet List"); //FROM DB
+                            print('Display Pet List'); //FROM DB
                             setState(() {
                               selectedIndex = 1;
                             });
@@ -405,7 +412,7 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
                             color: Colors.teal,
                           ),
                           onPressed: () {
-                            print("Display About Me"); //FROM DB
+                            print('Display About Me'); //FROM DB
                             setState(() {
                               selectedIndex = 2;
                             });
@@ -457,7 +464,7 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text("No Posts Available",
+                          Text('No Posts Available',
                               style:
                                   TextStyle(color: Colors.grey, fontSize: 30)),
                         ],
@@ -503,7 +510,7 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
     );
   }
 
-  getAboutMe() {
+  Wrap getAboutMe() {
     return Wrap(
       direction: Axis.horizontal,
       spacing: 3,
@@ -520,7 +527,7 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
                       shape: BoxShape.rectangle,
                       color: Colors.teal,
                       borderRadius: BorderRadius.circular(10)),
-                  child: Text("About Me",
+                  child: Text('About Me',
                       style: TextStyle(
                           fontFamily: 'Montserrat',
                           fontSize: 20,
@@ -547,7 +554,7 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
                     Padding(
                       padding: const EdgeInsets.only(top: 15),
                       child: Text(
-                        "Nickname",
+                        'Nickname',
                         style: TextStyle(
                             fontFamily: 'Montserrat',
                             fontWeight: FontWeight.bold,
@@ -580,7 +587,7 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
                     Padding(
                       padding: const EdgeInsets.only(top: 15),
                       child: Text(
-                        "Address",
+                        'Address',
                         style: TextStyle(
                             fontFamily: 'Montserrat',
                             fontWeight: FontWeight.bold,
@@ -613,7 +620,7 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
                     Padding(
                       padding: const EdgeInsets.only(top: 15),
                       child: Text(
-                        "Contact Details",
+                        'Contact Details',
                         style: TextStyle(
                             fontFamily: 'Montserrat',
                             fontWeight: FontWeight.bold,
@@ -635,7 +642,7 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
     );
   }
 
-  getPetList(size) {
+  Container getPetList(size) {
     return Container(
       margin: EdgeInsets.only(left: 20, right: 20, top: 5),
       child: Column(
@@ -648,7 +655,7 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
                 shape: BoxShape.rectangle,
                 color: Colors.teal,
                 borderRadius: BorderRadius.circular(10)),
-            child: Text("My Pet List",
+            child: Text('My Pet List',
                 softWrap: true,
                 overflow: TextOverflow.clip,
                 textAlign: TextAlign.center,
@@ -697,7 +704,7 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
                                 children: <Widget>[
                                   TextButton(
                                     onPressed: () {},
-                                    child: Text(PET_LIST[index]["name"],
+                                    child: Text(PET_LIST[index]['name']!,
                                         style: const TextStyle(
                                             color: Colors.black,
                                             decoration:
@@ -715,14 +722,14 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          PET_LIST[index]["breed"],
+                                          PET_LIST[index]['breed']!,
                                           style: const TextStyle(
                                               //fontSize: 17,
                                               color: Colors.grey,
                                               fontFamily: 'Montserrat'),
                                         ),
                                         Text(
-                                          PET_LIST[index]["age"],
+                                          PET_LIST[index]['age']!,
                                           style: const TextStyle(
                                               //fontSize: 17,
                                               color: Colors.grey,
@@ -747,7 +754,7 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
     );
   }
 
-  showDialogDelete(List<int> selectedIndex) {
+  bool showDialogDelete(List<int> selectedIndex) {
     bool flag;
     showDialog(
       context: context,
@@ -769,7 +776,7 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
                       children: [
                         SizedBox(height: 50),
                         Text(
-                            "Do you really want to delete the selected pet profile/s?",
+                            'Do you really want to delete the selected pet profile/s?',
                             style: TextStyle(fontFamily: 'Montserrat')),
                         SizedBox(height: 10),
                         Row(
@@ -781,7 +788,7 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
                                 elevation: 5,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(100)),
-                                child: Text("Delete",
+                                child: Text('Delete',
                                     style: TextStyle(fontFamily: 'Montserrat')),
                                 onPressed: () {
                                   print(selectedIndex);
@@ -805,7 +812,7 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
                                 elevation: 5,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(100)),
-                                child: Text("Cancel",
+                                child: Text('Cancel',
                                     style: TextStyle(fontFamily: 'Montserrat')),
                                 onPressed: () {
                                   Navigator.pop(context);
@@ -830,11 +837,12 @@ class _PublicProfilePageState extends State<PublicProfilePage> {
       },
       barrierDismissible: true,
     );
-    return flag;
+    return true;
   }
 
+  // ignore: always_declare_return_types
   expandPhoto() async {
-    showDialog(
+    await showDialog(
       context: context,
       builder: (context) {
         return Dialog(
