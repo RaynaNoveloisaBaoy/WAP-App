@@ -23,6 +23,7 @@ jobs:
     - run: dart pub upgrade
     - run: dart pub outdated --mode=null-safety
     - run: dart pub get
+    - run: dart migrate
     #- name: Get flutter dependencies.
     #- run: flutter --no-sound-null-safety
     - run: flutter pub get
