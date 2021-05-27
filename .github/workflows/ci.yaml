@@ -15,7 +15,11 @@ jobs:
           echo "$GITHUB_WORKSPACE/flutter/bin" >> $GITHUB_PATH
       - name: Run Checks # (3)
         run: |
-        
+          flutter channel
+          flutter channel dev
+          flutter upgrade
+          flutter clean
+          flutter update-packages
           flutter upgrade --force
           flutter pub get
           flutter format lib/** --set-exit-if-changed
