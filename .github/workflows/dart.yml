@@ -1,4 +1,4 @@
-# This workflow uses actions that are not certified by GitHub.
+  # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
 # separate terms of service, privacy policy, and support
 # documentation.
@@ -19,10 +19,14 @@ jobs:
       with:
         channel: 'stable'  
     - run: dart --version
-    - run: dart pub outdated --mode=null-safety
-    - run: dart pub upgrade
-    - run: dart pub outdated --mode=null-safety
+   # - run: dart pub outdated --mode=null-safety
+  
+  #- run: dart pub upgrade --null-safety 
+
+    
     - run: dart pub get
+  
+    - run: dart migrate  --skip-import-check 
     #- name: Get flutter dependencies.
     #- run: flutter --no-sound-null-safety
     - run: flutter pub get
