@@ -25,9 +25,11 @@ class _HomePageState extends State<HomePage> {
   dynamic pic = AssetImage('assets/images/defaultPic.png');
   ScrollController controller = ScrollController();
   bool isLoading = true;
-  List<bool> _isChecked;
+  // ignore: unused_field
+  late List<bool> _isChecked;
 
-  initState() {
+  @override
+  Future<void> initState() async {
     super.initState();
     if (!mounted) {
       return;
@@ -129,7 +131,7 @@ class _HomePageState extends State<HomePage> {
       ),
       body: isLoading
           ? LinearProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(Colors.teal[900]),
+              valueColor: AlwaysStoppedAnimation<Color>(Colors.teal[900]!),
               backgroundColor: Colors.white,
             )
           : ListView(

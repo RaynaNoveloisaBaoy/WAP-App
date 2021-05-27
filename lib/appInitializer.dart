@@ -1,7 +1,9 @@
+//import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:wap/searchedUser.dart';
+//import 'package:wap/searchedUser.dart';
 import 'package:wap/profilepage.dart';
 import 'package:wap/splash_screen.dart';
 
@@ -27,7 +29,8 @@ class App extends StatelessWidget {
               stream: FirebaseAuth.instance.authStateChanges(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.active) {
-                  User user = snapshot.data;
+                  var user = snapshot.data;
+                  // ignore: unnecessary_null_comparison
                   if (user == null) {
                     return Splash();
                   } else {
@@ -45,11 +48,11 @@ class App extends StatelessWidget {
   }
 }
 
-somethingWentWrong(snapshot) {
-  return Scaffold(body: Center(child: Text("Error: ${snapshot.error}")));
+Scaffold somethingWentWrong(snapshot) {
+  return Scaffold(body: Center(child: Text('Error: ${snapshot.error}')));
 }
 
-loading(AssetImage pic) {
+Scaffold loading(AssetImage pic) {
   return Scaffold(
       backgroundColor: Colors.teal[200],
       body: Center(
@@ -70,7 +73,7 @@ loading(AssetImage pic) {
           height: 20,
         ),
         Text(
-          "CONNECTING TO THE APP",
+          'CONNECTING TO THE APP',
           style: TextStyle(color: Colors.white),
         )
       ])));

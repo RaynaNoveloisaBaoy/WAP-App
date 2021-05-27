@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:wap/database.dart';
@@ -25,9 +26,11 @@ class _EditProfileState extends State<EditProfile> {
   var fileName = "Upload Profile Picture";
   dynamic pic = AssetImage('assets/images/wap_logo.png');
 
-  File _imageFile;
-  PickedFile image;
+  late File _imageFile;
+  late PickedFile image;
 
+  @override
+  // ignore: always_declare_return_types
   initState() {
     super.initState();
     getPic();
@@ -197,7 +200,7 @@ class _EditProfileState extends State<EditProfile> {
                               padding: EdgeInsets.symmetric(horizontal: 50),
                               child: MaterialButton(
                                 onPressed: () {
-                                  if (_key.currentState.validate()) {
+                                  if (_key.currentState!.validate()) {
                                     updateProfile(context);
                                   }
                                 },
@@ -244,7 +247,7 @@ class _EditProfileState extends State<EditProfile> {
                   //FirstName
                   controller: _firstnameController,
                   validator: (value) {
-                    if (value.length > 64) {
+                    if (value!.length > 64) {
                       return "Character limit reached (64 characters)";
                     } else {
                       return null;
@@ -257,7 +260,8 @@ class _EditProfileState extends State<EditProfile> {
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5),
-                        borderSide: BorderSide(color: Colors.teal[200])),
+                        borderSide: BorderSide(color: (Colors.teal[200])!)
+                        ),
                     fillColor: Colors.teal[200],
                     filled: true,
                     hintText: 'First Name',
@@ -273,7 +277,7 @@ class _EditProfileState extends State<EditProfile> {
                   //LastName
                   controller: _lastnameController,
                   validator: (value) {
-                    if (value.length > 32) {
+                    if (value!.length > 32) {
                       return "Character limit reached (32 characters)";
                     } else {
                       return null;
@@ -286,7 +290,7 @@ class _EditProfileState extends State<EditProfile> {
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5),
-                        borderSide: BorderSide(color: Colors.teal[200])),
+                        borderSide: BorderSide(color: (Colors.teal[200])!)),
                     fillColor: Colors.teal[200],
                     filled: true,
                     hintText: 'Last Name',
@@ -301,7 +305,7 @@ class _EditProfileState extends State<EditProfile> {
                 TextFormField(
                   controller: _bioController,
                   validator: (value) {
-                    if (value.length > 60) {
+                    if (value!.length > 60) {
                       return "Character limit reached (60 characters)";
                     } else {
                       return null;
@@ -315,7 +319,7 @@ class _EditProfileState extends State<EditProfile> {
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5),
-                        borderSide: BorderSide(color: Colors.teal[200])),
+                        borderSide: BorderSide(color: (Colors.teal[200])!)),
                     fillColor: Colors.teal[200],
                     filled: true,
                     hintText: 'Bio',
@@ -331,7 +335,7 @@ class _EditProfileState extends State<EditProfile> {
                 TextFormField(
                   controller: _nicknameController,
                   validator: (value) {
-                    if (value.length > 32) {
+                    if (value!.length > 32) {
                       return "Character limit reached (32 characters)";
                     } else {
                       return null;
@@ -344,7 +348,7 @@ class _EditProfileState extends State<EditProfile> {
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5),
-                        borderSide: BorderSide(color: Colors.teal[200])),
+                        borderSide: BorderSide(color: (Colors.teal[200])!)),
                     fillColor: Colors.teal[200],
                     filled: true,
                     hintText: 'Nickname',
@@ -359,7 +363,7 @@ class _EditProfileState extends State<EditProfile> {
                 TextFormField(
                   controller: _addressController,
                   validator: (value) {
-                    if (value.length > 64) {
+                    if (value!.length > 64) {
                       return "Character limit reached (64 characters)";
                     } else {
                       return null;
@@ -372,7 +376,7 @@ class _EditProfileState extends State<EditProfile> {
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5),
-                        borderSide: BorderSide(color: Colors.teal[200])),
+                        borderSide: BorderSide(color: (Colors.teal[200])!)),
                     fillColor: Colors.teal[200],
                     filled: true,
                     hintText: 'Address',
@@ -386,7 +390,7 @@ class _EditProfileState extends State<EditProfile> {
                 SizedBox(height: 10),
                 TextFormField(
                   validator: (value) {
-                    return validateMobile(value);
+                    return validateMobile(value!);
                   },
                   controller: _numberController,
                   style: TextStyle(
@@ -396,7 +400,7 @@ class _EditProfileState extends State<EditProfile> {
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5),
-                        borderSide: BorderSide(color: Colors.teal[200])),
+                        borderSide: BorderSide(color: Colors.teal[200]!)),
                     fillColor: Colors.teal[200],
                     filled: true,
                     hintText: 'Contact Number',
@@ -414,9 +418,14 @@ class _EditProfileState extends State<EditProfile> {
       ],
     );
   }
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(DiagnosticsProperty<PickedFile>('image', image));
+  }
 }
 
-String validateMobile(String value) {
+String? validateMobile(String value) {
   String patttern = r'(^09[0-9]{9}$)';
   RegExp regExp = new RegExp(patttern);
   if (value.length == 0) {

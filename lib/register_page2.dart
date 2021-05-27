@@ -19,55 +19,83 @@ class _RegisterPageState extends State<InstitutionRegisterPage> {
   bool accepted = false;
   bool usernameTaken = false;
   bool emailTaken = false;
-  String pssword;
+  late String pssword;
   String errorMsg;
   final _key = GlobalKey<FormState>();
 
-  _registerUser() async {
-    final docSnap = await FirebaseFirestore.instance
-        .collection('users')
-        .where('username', isEqualTo: _newusernameController.text);
-    await docSnap.get().then((value) async {
-      await Future.forEach(value.docs, (doc) async {
-        setState(() {
-          usernameTaken = true;
+  // ignore: always_declare_return_types
+  _registerUser async {
+      final docSnap = await FirebaseFirestore.instance
+          .collection('users')
+          .where('username', isEqualTo: _newusernameController.text);
+        docSnap.get().then((value) async {
+        await Future.forEach(value.docs, (doc) async {
+          setState(() {
+            usernameTaken = true;
+          });
         });
       });
-    });
-    _userRegister(usernameTaken);
-    setState(() {
-      usernameTaken = false;
-    });
-  }
-
-  _userRegister(bool usernameTaken) async {
-    if (usernameTaken == false) {
-      try {
-        UserCredential userCredential = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(
-                email: _newemailController.text,
-                password: _newpasswordController.text);
-        User user = userCredential.user;
-        await DatabaseService(uid: user.uid).updateUser2(
-            _newusernameController.text,
-            _newemailController.text,
-            _newinstinameController.text);
-        Navigator.pop(context);
-        Navigator.pop(context);
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => SetupProfilePage2(),
-            ));
-      } catch (e) {
-        showDialog(
+      _userRegister(usernameTaken);
+      setState(() {
+        usernameTaken = false;
+      });
+    }
+  
+    // ignore: always_declare_return_types
+    _userRegister(bool usernameTaken) async {
+      if (usernameTaken == false) {
+        try {
+          UserCredential userCredential = await FirebaseAuth.instance
+              .createUserWithEmailAndPassword(
+                  email: _newemailController.text,
+                  password: _newpasswordController.text);
+          User user = userCredential.user;
+          await DatabaseService(uid: user.uid).updateUser2(
+              _newusernameController.text,
+              _newemailController.text,
+              _newinstinameController.text);
+          Navigator.pop(context);
+          Navigator.pop(context);
+          await Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => SetupProfilePage2(),
+              ));
+        } catch (e) {
+          await showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text(e.message),
+                actions: <Widget>[
+                  ElevatedButton(
+                    child: Text('OK'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+        }
+      } else {
+        await showDialog(
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: new Text(e.message),
+              title: Text(
+                "Registration Error",
+                textAlign: TextAlign.center,
+              ),
+              content: Text(
+                "Username is already taken",
+                textAlign: TextAlign.center,
+              ),
               actions: <Widget>[
-                ElevatedButton(
+                MaterialButton(
                   child: new Text("OK"),
+                  color: Colors.teal[100],
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -77,297 +105,280 @@ class _RegisterPageState extends State<InstitutionRegisterPage> {
           },
         );
       }
-    } else {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: new Text(
-              "Registration Error",
-              textAlign: TextAlign.center,
-            ),
-            content: Text(
-              "Username is already taken",
-              textAlign: TextAlign.center,
-            ),
-            actions: <Widget>[
-              MaterialButton(
-                child: new Text("OK"),
-                color: Colors.teal[100],
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
+    }
+  
+    @override
+    Widget build(BuildContext context) {
+      return Scaffold(
+        resizeToAvoidBottomInset: false,
+        backgroundColor: Colors.teal,
+        appBar: AppBar(
+          backgroundColor: Colors.teal[100],
+          centerTitle: true,
+          title: Text('We Adopt Pets'),
+          actions: [
+            Container(
+              padding: EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.teal[200],
               ),
-            ],
-          );
-        },
+              child: Image.asset(
+                'assets/images/wap_logo.png',
+                matchTextDirection: true,
+                fit: BoxFit.fill,
+                height: 60,
+              ),
+            )
+          ],
+        ),
+        body: Container(
+          margin: EdgeInsets.only(top: 60),
+          height: MediaQuery.of(context).size.height,
+          width: double.infinity,
+          child: Column(children: <Widget>[
+            Text(
+              'Register an Account',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'Fredoka One',
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 20),
+            buildForm(),
+            SizedBox(height: 20),
+            readTC(),
+            SizedBox(height: 20),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 100),
+              child: Container(
+                padding: EdgeInsets.only(top: 3, left: 3),
+                child: MaterialButton(
+                  minWidth: double.infinity,
+                  height: 50,
+                  onPressed: () async {
+                    if (_key.currentState!.validate()) {
+                      await _registerUser;
+                    }
+                  },
+                  color: Colors.teal[100],
+                  elevation: 5,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50)),
+                  child: Text('Register',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18,
+                          fontFamily: 'Montserrat')),
+                ),
+              ),
+            ),
+          ]),
+        ),
       );
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.teal,
-      appBar: AppBar(
-        backgroundColor: Colors.teal[100],
-        centerTitle: true,
-        title: Text('We Adopt Pets'),
-        actions: [
-          Container(
-            padding: EdgeInsets.all(5),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.teal[200],
-            ),
-            child: Image.asset(
-              'assets/images/wap_logo.png',
-              matchTextDirection: true,
-              fit: BoxFit.fill,
-              height: 60,
-            ),
-          )
-        ],
-      ),
-      body: Container(
-        margin: EdgeInsets.only(top: 60),
-        height: MediaQuery.of(context).size.height,
-        width: double.infinity,
-        child: Column(children: <Widget>[
-          Text(
-            'Register an Account',
-            style: TextStyle(
-                color: Colors.white,
-                fontFamily: 'Fredoka One',
-                fontSize: 30,
-                fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 20),
-          buildForm(),
-          SizedBox(height: 20),
-          readTC(),
-          SizedBox(height: 20),
+  
+    Widget buildForm() {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 100),
-            child: Container(
-              padding: EdgeInsets.only(top: 3, left: 3),
-              child: MaterialButton(
-                minWidth: double.infinity,
-                height: 50,
-                onPressed: () async {
-                  if (_key.currentState.validate()) {
-                    await _registerUser();
-                  }
-                },
-                color: Colors.teal[100],
-                elevation: 5,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50)),
-                child: Text("Register",
+              padding: EdgeInsets.symmetric(horizontal: 50),
+              child: Form(
+                key: _key,
+                child: Column(children: <Widget>[
+                  TextFormField(
+                    //INSTITUTION NAME
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Name of Institution is required';
+                      } else {
+                        return null;
+                      }
+                    },
+                    controller: _newinstinameController,
                     style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 18,
-                        fontFamily: 'Montserrat')),
-              ),
-            ),
-          ),
-        ]),
-      ),
-    );
+                      color: Colors.black87,
+                      fontFamily: 'Montserrat',
+                    ),
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          borderSide: BorderSide(color: (Colors.teal[200])!)),
+                      fillColor: Colors.teal[300],
+                      filled: true,
+                      hintText: 'Name of Institution',
+                      hintStyle: TextStyle(
+                          color: Colors.black38, fontFamily: 'Montserrat'),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                      prefixIcon: Icon(Icons.person, color: Colors.white),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  TextFormField(
+                    //USERNAME
+                    validator: (value) {
+                      if (value!.isEmpty) {
+                        return 'Username is required';
+                      } else if (usernameTaken) {
+                        return "Username is already used";
+                      } else {
+                        return null;
+                      }
+                    },
+                    controller: _newusernameController,
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontFamily: 'Montserrat',
+                    ),
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          borderSide: BorderSide(color: Colors.teal[200])),
+                      fillColor: Colors.teal[300],
+                      filled: true,
+                      hintText: 'Username',
+                      hintStyle: TextStyle(
+                          color: Colors.black38, fontFamily: 'Montserrat'),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                      prefixIcon:
+                          Icon(Icons.alternate_email, color: Colors.white),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  TextFormField(
+                    //EMAIL
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "Email is required";
+                      } else if (emailTaken) {
+                        return "Email is already used";
+                      } else {
+                        return errorMsg;
+                      }
+                    },
+                    controller: _newemailController,
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontFamily: 'Montserrat',
+                    ),
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          borderSide: BorderSide(color: Colors.teal[200])),
+                      fillColor: Colors.teal[300],
+                      filled: true,
+                      hintText: 'Email',
+                      hintStyle: TextStyle(
+                          color: Colors.black38, fontFamily: 'Montserrat'),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                      prefixIcon: Icon(Icons.email, color: Colors.white),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  TextFormField(
+                    //PASSWORD
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "Password is required";
+                      } else if (value.length < 6) {
+                        return "Password should be at least 6 characters";
+                      } else {
+                        return null;
+                      }
+                    },
+                    controller: _newpasswordController,
+                    obscureText: true,
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontFamily: 'Montserrat',
+                    ),
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          borderSide: BorderSide(color: Colors.teal[200])),
+                      fillColor: Colors.teal[300],
+                      filled: true,
+                      hintText: 'Password',
+                      hintStyle: TextStyle(
+                          color: Colors.black38, fontFamily: 'Montserrat'),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                      prefixIcon: Icon(Icons.lock, color: Colors.white),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  TextFormField(
+                    //CONFIRM PASSWORD
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return "Password is required";
+                      } else if (_newpasswordController.text !=
+                          _confirmpasswordController.text) {
+                        return "Password does not match";
+                      } else {
+                        return null;
+                      }
+                    },
+                    obscureText: true,
+                    controller: _confirmpasswordController,
+                    style: TextStyle(
+                      color: Colors.black87,
+                      fontFamily: 'Montserrat',
+                    ),
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          borderSide: BorderSide(color: Colors.teal[200])),
+                      fillColor: Colors.teal[300],
+                      filled: true,
+                      hintText: 'Confirm Password',
+                      hintStyle: TextStyle(
+                          color: Colors.black38, fontFamily: 'Montserrat'),
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+                      prefixIcon: Icon(Icons.lock, color: Colors.white),
+                    ),
+                  ),
+                ]),
+              )),
+        ],
+      );
+    }
+  
+    Widget readTC() {
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text('By clicking Register, you accept the ',
+              style: TextStyle(fontFamily: 'Montserrat')),
+          TextButton(
+              onPressed: () {
+                //TermsAndConditions();
+                createTC(context);
+              },
+              style: TextButton.styleFrom(primary: Colors.white),
+              child: Text('Terms and Conditions of WAP App',
+                  style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      color: Colors.white,
+                      decoration: TextDecoration.underline)))
+        ],
+      );
+    }
+    @override
+    void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+      super.debugFillProperties(properties);
+      properties.add(DiagnosticsProperty('_registerUser', _registerUser));
+      properties.add(DiagnosticsProperty('_registerUser', _registerUser));
+    }
   }
-
-  Widget buildForm() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Padding(
-            padding: EdgeInsets.symmetric(horizontal: 50),
-            child: Form(
-              key: _key,
-              child: Column(children: <Widget>[
-                TextFormField(
-                  //INSTITUTION NAME
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return "Name of Institution is required";
-                    } else {
-                      return null;
-                    }
-                  },
-                  controller: _newinstinameController,
-                  style: TextStyle(
-                    color: Colors.black87,
-                    fontFamily: 'Montserrat',
-                  ),
-                  decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5),
-                        borderSide: BorderSide(color: Colors.teal[200])),
-                    fillColor: Colors.teal[300],
-                    filled: true,
-                    hintText: 'Name of Institution',
-                    hintStyle: TextStyle(
-                        color: Colors.black38, fontFamily: 'Montserrat'),
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                    prefixIcon: Icon(Icons.person, color: Colors.white),
-                  ),
-                ),
-                SizedBox(height: 10),
-                TextFormField(
-                  //USERNAME
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return "Username is required";
-                    } else if (usernameTaken) {
-                      return "Username is already used";
-                    } else {
-                      return null;
-                    }
-                  },
-                  controller: _newusernameController,
-                  style: TextStyle(
-                    color: Colors.black87,
-                    fontFamily: 'Montserrat',
-                  ),
-                  decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5),
-                        borderSide: BorderSide(color: Colors.teal[200])),
-                    fillColor: Colors.teal[300],
-                    filled: true,
-                    hintText: 'Username',
-                    hintStyle: TextStyle(
-                        color: Colors.black38, fontFamily: 'Montserrat'),
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                    prefixIcon:
-                        Icon(Icons.alternate_email, color: Colors.white),
-                  ),
-                ),
-                SizedBox(height: 10),
-                TextFormField(
-                  //EMAIL
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return "Email is required";
-                    } else if (emailTaken) {
-                      return "Email is already used";
-                    } else {
-                      return errorMsg;
-                    }
-                  },
-                  controller: _newemailController,
-                  style: TextStyle(
-                    color: Colors.black87,
-                    fontFamily: 'Montserrat',
-                  ),
-                  decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5),
-                        borderSide: BorderSide(color: Colors.teal[200])),
-                    fillColor: Colors.teal[300],
-                    filled: true,
-                    hintText: 'Email',
-                    hintStyle: TextStyle(
-                        color: Colors.black38, fontFamily: 'Montserrat'),
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                    prefixIcon: Icon(Icons.email, color: Colors.white),
-                  ),
-                ),
-                SizedBox(height: 10),
-                TextFormField(
-                  //PASSWORD
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return "Password is required";
-                    } else if (value.length < 6) {
-                      return "Password should be at least 6 characters";
-                    } else {
-                      return null;
-                    }
-                  },
-                  controller: _newpasswordController,
-                  obscureText: true,
-                  style: TextStyle(
-                    color: Colors.black87,
-                    fontFamily: 'Montserrat',
-                  ),
-                  decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5),
-                        borderSide: BorderSide(color: Colors.teal[200])),
-                    fillColor: Colors.teal[300],
-                    filled: true,
-                    hintText: 'Password',
-                    hintStyle: TextStyle(
-                        color: Colors.black38, fontFamily: 'Montserrat'),
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                    prefixIcon: Icon(Icons.lock, color: Colors.white),
-                  ),
-                ),
-                SizedBox(height: 10),
-                TextFormField(
-                  //CONFIRM PASSWORD
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return "Password is required";
-                    } else if (_newpasswordController.text !=
-                        _confirmpasswordController.text) {
-                      return "Password does not match";
-                    } else {
-                      return null;
-                    }
-                  },
-                  obscureText: true,
-                  controller: _confirmpasswordController,
-                  style: TextStyle(
-                    color: Colors.black87,
-                    fontFamily: 'Montserrat',
-                  ),
-                  decoration: InputDecoration(
-                    enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5),
-                        borderSide: BorderSide(color: Colors.teal[200])),
-                    fillColor: Colors.teal[300],
-                    filled: true,
-                    hintText: 'Confirm Password',
-                    hintStyle: TextStyle(
-                        color: Colors.black38, fontFamily: 'Montserrat'),
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 15, horizontal: 30),
-                    prefixIcon: Icon(Icons.lock, color: Colors.white),
-                  ),
-                ),
-              ]),
-            )),
-      ],
-    );
-  }
-
-  Widget readTC() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Text('By clicking Register, you accept the ',
-            style: TextStyle(fontFamily: 'Montserrat')),
-        TextButton(
-            onPressed: () {
-              //TermsAndConditions();
-              createTC(context);
-            },
-            style: TextButton.styleFrom(primary: Colors.white),
-            child: Text('Terms and Conditions of WAP App',
-                style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    color: Colors.white,
-                    decoration: TextDecoration.underline)))
-      ],
-    );
-  }
+  
+  class _registerUser {
 }
 
 createTC(BuildContext context) {

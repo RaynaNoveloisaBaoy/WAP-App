@@ -11,19 +11,20 @@ class PersonalRegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<PersonalRegisterPage> {
-  TextEditingController _newfirstnameController = TextEditingController();
-  TextEditingController _newlastnameController = TextEditingController();
-  TextEditingController _newusernameController = TextEditingController();
-  TextEditingController _newemailController = TextEditingController();
-  TextEditingController _newpasswordController = TextEditingController();
-  TextEditingController _confirmpasswordController = TextEditingController();
+  final TextEditingController _newfirstnameController = TextEditingController();
+  final TextEditingController _newlastnameController = TextEditingController();
+  final TextEditingController _newusernameController = TextEditingController();
+  final TextEditingController _newemailController = TextEditingController();
+  final TextEditingController _newpasswordController = TextEditingController();
+  final TextEditingController _confirmpasswordController = TextEditingController();
   bool accepted = false;
   bool usernameTaken = false;
   bool emailTaken = false;
-  String pssword;
-  String errorMsg;
+  late String pssword;
+  late String errorMsg;
   final _key = GlobalKey<FormState>();
 
+  // ignore: always_declare_return_types
   _registerUser() async {
     final docSnap = await FirebaseFirestore.instance
         .collection('users')
@@ -41,6 +42,7 @@ class _RegisterPageState extends State<PersonalRegisterPage> {
     });
   }
 
+  // ignore: always_declare_return_types
   _userRegister(bool usernameTaken) async {
     if (usernameTaken == false) {
       try {
@@ -56,27 +58,27 @@ class _RegisterPageState extends State<PersonalRegisterPage> {
             _newlastnameController.text);
         Navigator.pop(context);
         Navigator.pop(context);
-        Navigator.pushReplacement(
+        await Navigator.pushReplacement(
             context,
             MaterialPageRoute(
               builder: (context) => SetupProfilePage(),
             ));
       } catch (e) {
-        showDialog(
+        await showDialog(
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: new Text(
-                "Registration Error",
+              title: Text(
+                'Registration Error',
                 textAlign: TextAlign.center,
               ),
-              content: new Text(
+              content: Text(
                 e.message,
                 textAlign: TextAlign.center,
               ),
               actions: <Widget>[
                 MaterialButton(
-                  child: new Text("OK"),
+                  child: Text('OK'),
                   color: Colors.teal[100],
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -166,7 +168,7 @@ class _RegisterPageState extends State<PersonalRegisterPage> {
                 minWidth: double.infinity,
                 height: 50,
                 onPressed: () async {
-                  if (_key.currentState.validate()) {
+                  if (_key.currentState!.validate()) {
                     await _registerUser();
                   }
                 },
@@ -200,10 +202,10 @@ class _RegisterPageState extends State<PersonalRegisterPage> {
                   //FIRST NAME
                   textCapitalization: TextCapitalization.words,
                   validator: (value) {
-                    if (value.isEmpty) {
-                      return "First name is required";
+                    if (value!.isEmpty) {
+                      return 'First name is required';
                     } else if (value.length > 64) {
-                      return "Character limit reached (64 characters)";
+                      return 'Character limit reached (64 characters)';
                     } else {
                       return null;
                     }
@@ -216,7 +218,7 @@ class _RegisterPageState extends State<PersonalRegisterPage> {
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5),
-                        borderSide: BorderSide(color: Colors.teal[200])),
+                        borderSide: BorderSide(color: (Colors.teal[200])!)),
                     fillColor: Colors.teal[300],
                     filled: true,
                     hintText: 'First Name',
@@ -232,10 +234,10 @@ class _RegisterPageState extends State<PersonalRegisterPage> {
                   //LAST NAME
                   textCapitalization: TextCapitalization.words,
                   validator: (value) {
-                    if (value.isEmpty) {
-                      return "Last Name is required";
+                    if (value!.isEmpty) {
+                      return 'Last Name is required';
                     } else if (value.length > 32) {
-                      return "Character limit reached (32 characters)";
+                      return 'Character limit reached (32 characters)';
                     } else {
                       return null;
                     }
@@ -248,7 +250,7 @@ class _RegisterPageState extends State<PersonalRegisterPage> {
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5),
-                        borderSide: BorderSide(color: Colors.teal[200])),
+                        borderSide: BorderSide(color: (Colors.teal[200])!)),
                     fillColor: Colors.teal[300],
                     filled: true,
                     hintText: 'Last Name',
@@ -263,10 +265,10 @@ class _RegisterPageState extends State<PersonalRegisterPage> {
                 TextFormField(
                   //USERNAME
                   validator: (value) {
-                    if (value.isEmpty) {
-                      return "Username is required";
+                    if (value!.isEmpty) {
+                      return 'Username is required';
                     } else if (value.length > 32) {
-                      return "Character limit reached (32 characters)";
+                      return 'Character limit reached (32 characters)';
                     } else {
                       return null;
                     }
@@ -279,7 +281,7 @@ class _RegisterPageState extends State<PersonalRegisterPage> {
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5),
-                        borderSide: BorderSide(color: Colors.teal[200])),
+                        borderSide: BorderSide(color: (Colors.teal[200])!)),
                     fillColor: Colors.teal[300],
                     filled: true,
                     hintText: 'Username',
@@ -295,10 +297,10 @@ class _RegisterPageState extends State<PersonalRegisterPage> {
                 TextFormField(
                   //EMAIL
                   validator: (value) {
-                    if (value.isEmpty) {
-                      return "Email is required";
+                    if (value!.isEmpty) {
+                      return 'Email is required';
                     } else if (emailTaken) {
-                      return "Email is already used";
+                      return 'Email is already used';
                     } else {
                       return errorMsg;
                     }
@@ -311,7 +313,7 @@ class _RegisterPageState extends State<PersonalRegisterPage> {
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5),
-                        borderSide: BorderSide(color: Colors.teal[200])),
+                        borderSide: BorderSide(color: (Colors.teal[200])!)),
                     fillColor: Colors.teal[300],
                     filled: true,
                     hintText: 'Email',
@@ -326,12 +328,12 @@ class _RegisterPageState extends State<PersonalRegisterPage> {
                 TextFormField(
                   //PASSWORD
                   validator: (value) {
-                    if (value.isEmpty) {
-                      return "Password is required";
+                    if (value!.isEmpty) {
+                      return 'Password is required';
                     } else if (value.length < 6) {
-                      return "Password should be at least 6 characters";
+                      return 'Password should be at least 6 characters';
                     } else if (value.length > 32) {
-                      return "Character limit reached (32 characters)";
+                      return 'Character limit reached (32 characters)';
                     } else {
                       return null;
                     }
@@ -345,7 +347,7 @@ class _RegisterPageState extends State<PersonalRegisterPage> {
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5),
-                        borderSide: BorderSide(color: Colors.teal[200])),
+                        borderSide: BorderSide(color: (Colors.teal[200])!)),
                     fillColor: Colors.teal[300],
                     filled: true,
                     hintText: 'Password',
@@ -360,11 +362,11 @@ class _RegisterPageState extends State<PersonalRegisterPage> {
                 TextFormField(
                   //CONFIRM PASSWORD
                   validator: (value) {
-                    if (value.isEmpty) {
-                      return "Password is required";
+                    if (value!.isEmpty) {
+                      return 'Password is required';
                     } else if (_newpasswordController.text !=
                         _confirmpasswordController.text) {
-                      return "Password does not match";
+                      return 'Password does not match';
                     } else {
                       return null;
                     }
@@ -378,7 +380,7 @@ class _RegisterPageState extends State<PersonalRegisterPage> {
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5),
-                        borderSide: BorderSide(color: Colors.teal[200])),
+                        borderSide: BorderSide(color: (Colors.teal[200])!)),
                     fillColor: Colors.teal[300],
                     filled: true,
                     hintText: 'Confirm Password',
@@ -422,7 +424,8 @@ class _RegisterPageState extends State<PersonalRegisterPage> {
   }
 }
 
-createTC(BuildContext context) {
+Future createTC(BuildContext context) {
+  // ignore: omit_local_variable_types
   final ScrollController _scrollController = ScrollController();
 
   return showDialog(
@@ -445,7 +448,7 @@ createTC(BuildContext context) {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       SizedBox(height: 40),
-                      Text("Terms and Conditions",
+                      Text('Terms and Conditions',
                           style: TextStyle(
                               fontFamily: 'Fredoka One',
                               fontSize: 25,

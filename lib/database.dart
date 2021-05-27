@@ -5,7 +5,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 class DatabaseService {
   final String uid;
-  DatabaseService({this.uid});
+
+ DatabaseService({ required this.uid});
 
   final CollectionReference userslist =
       FirebaseFirestore.instance.collection('users');
@@ -180,8 +181,8 @@ Future<bool> isUsernameAvailable(String username) async {
       FirebaseFirestore.instance.collection('users');
   userslist.get().then((QuerySnapshot querySnapshot) {
     querySnapshot.docs.forEach((doc) {
-      if (doc["username"] == username) {
-        return false;
+      if (doc['username'] == username) {
+        //return false;
       }
     });
   });

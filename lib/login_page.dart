@@ -1,4 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
+// ignore: import_of_legacy_library_into_null_safe
+// ignore: import_of_legacy_library_into_null_safe
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
@@ -11,15 +12,15 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController _passwordController = TextEditingController();
-  TextEditingController _usernameController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   bool _secureText = true;
   final _key = GlobalKey<FormState>();
-  String email = "none";
+  String email = 'none';
   bool userExist = false;
 
-  searchUser() async {
+  Future<void> searchUser() async {
     final docSnap = await FirebaseFirestore.instance
         .collection('users')
         .where('username', isEqualTo: _usernameController.text);
@@ -27,17 +28,14 @@ class _LoginPageState extends State<LoginPage> {
       await Future.forEach(value.docs, (doc) async {
         setState(() {
           userExist = true;
-          email = doc['email'];
+          email = doc!['email'];
         });
       });
     });
     print(userExist);
     if (userExist == true) {
       try {
-        UserCredential userCredential = await FirebaseAuth.instance
-            .signInWithEmailAndPassword(
-                email: email, password: _passwordController.text);
-        Navigator.pushReplacement(
+        await Navigator.pushReplacement(
             context,
             MaterialPageRoute(
               builder: (context) => ProfilePage(),
@@ -46,21 +44,21 @@ class _LoginPageState extends State<LoginPage> {
         if (!mounted) {
           return;
         }
-        showDialog(
+        await showDialog(
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: new Text(
-                "Login Error",
+              title: Text(
+                'Login Error',
                 textAlign: TextAlign.center,
               ),
-              content: new Text(
+              content: Text(
                 e.message,
                 textAlign: TextAlign.center,
               ),
               actions: <Widget>[
                 MaterialButton(
-                  child: new Text("OK"),
+                  child: Text('OK'),
                   color: Colors.teal[100],
                   onPressed: () {
                     Navigator.of(context).pop();
@@ -75,21 +73,21 @@ class _LoginPageState extends State<LoginPage> {
       if (!mounted) {
         return; // Just do nothing if the widget is disposed.
       }
-      showDialog(
+      await showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: new Text(
-              "Login Error",
+            title: Text(
+              'Login Error',
               textAlign: TextAlign.center,
             ),
             content: Text(
-              "Username not found",
+              'Username not found',
               textAlign: TextAlign.center,
             ),
             actions: <Widget>[
               MaterialButton(
-                child: new Text("OK"),
+                child: new Text('OK'),
                 color: Colors.teal[100],
                 onPressed: () {
                   Navigator.of(context).pop();
@@ -104,7 +102,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
     return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.teal[400],
@@ -135,7 +132,7 @@ class _LoginPageState extends State<LoginPage> {
                       height: 10,
                     ),
                     Text(
-                      "Login to WAP APP",
+                      'Login to WAP APP',
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 30,
@@ -156,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                         minWidth: double.infinity,
                         height: 50,
                         onPressed: () {
-                          if (_key.currentState.validate()) {
+                          if (_key.currentState!.validate()) {
                             searchUser();
                           }
                         },
@@ -181,7 +178,7 @@ class _LoginPageState extends State<LoginPage> {
                             primary: Colors.white,
                           ),
                           child: Text(
-                            "Forgot Password",
+                            'Forgot Password',
                             style: TextStyle(
                                 fontFamily: 'Montserrat',
                                 decoration: TextDecoration.underline),
@@ -191,7 +188,7 @@ class _LoginPageState extends State<LoginPage> {
                           }),
                       SizedBox(height: 15),
                       Text(
-                        "New to WAP App?",
+                        'New to WAP App?',
                         style: TextStyle(fontFamily: 'Montserrat'),
                       ),
                       TextButton(
@@ -214,7 +211,7 @@ class _LoginPageState extends State<LoginPage> {
         ));
   }
 
-  createPopUp(BuildContext context) {
+  Future createPopUp(BuildContext context) {
     return showDialog(
       context: context,
       builder: (context) {
@@ -236,8 +233,8 @@ class _LoginPageState extends State<LoginPage> {
                         SizedBox(height: 50),
                         TextFormField(
                           validator: (value) {
-                            if (value.isEmpty) {
-                              return "Email is required";
+                            if (value!.isEmpty) {
+                              return 'Email is required';
                             } else {
                               return null;
                             }
@@ -247,7 +244,7 @@ class _LoginPageState extends State<LoginPage> {
                             enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(5),
                                 borderSide:
-                                    BorderSide(color: Colors.teal[200])),
+                                    BorderSide(color: (Colors.teal[200])!)),
                             fillColor: Colors.teal[300],
                             filled: true,
                             hintText: 'Enter your email',
@@ -266,7 +263,7 @@ class _LoginPageState extends State<LoginPage> {
                                 elevation: 5,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(100)),
-                                child: Text("Send reset link",
+                                child: Text('Send reset link',
                                     style: TextStyle(fontFamily: 'Montserrat')),
                                 onPressed: () {
                                   createConfirm(context);
@@ -276,7 +273,7 @@ class _LoginPageState extends State<LoginPage> {
                                 elevation: 5,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(100)),
-                                child: Text("Cancel",
+                                child: Text('Cancel',
                                     style: TextStyle(fontFamily: 'Montserrat')),
                                 onPressed: () {
                                   Navigator.pop(context);
@@ -303,7 +300,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  createConfirm(BuildContext context) {
+  Future createConfirm(BuildContext context) {
     return showDialog(
       context: context,
       builder: (context) {
@@ -324,7 +321,7 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         SizedBox(height: 50),
                         Text(
-                            "A password reset link is already sent to your email.",
+                            'A password reset link is already sent to your email.',
                             style: TextStyle(fontFamily: 'Montserrat')),
                         SizedBox(height: 20),
                         MaterialButton(
@@ -332,7 +329,7 @@ class _LoginPageState extends State<LoginPage> {
                             elevation: 5,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(100)),
-                            child: Text("Done",
+                            child: Text('Done',
                                 style: TextStyle(fontFamily: 'Montserrat')),
                             onPressed: () {
                               Navigator.pop(context);
@@ -371,8 +368,8 @@ class _LoginPageState extends State<LoginPage> {
                   //USERNAME
                   //Include invalid username in validator
                   validator: (value) {
-                    if (value.isEmpty) {
-                      return "Username is required";
+                    if (value!.isEmpty) {
+                      return 'Username is required';
                     } else {
                       return null;
                     }
@@ -385,7 +382,7 @@ class _LoginPageState extends State<LoginPage> {
                   decoration: InputDecoration(
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(5),
-                        borderSide: BorderSide(color: Colors.teal[200])),
+                        borderSide: BorderSide(color: (Colors.teal[200])!)),
                     fillColor: Colors.teal[300],
                     filled: true,
                     hintText: 'Username',
@@ -401,10 +398,10 @@ class _LoginPageState extends State<LoginPage> {
                   //PASSWORD
                   //Include invalid password in validator
                   validator: (value) {
-                    if (value.isEmpty) {
-                      return "Password is required";
+                    if (value!.isEmpty) {
+                      return 'Password is required';
                     } else if (value.length < 6) {
-                      return "Password should be at least 6 characters";
+                      return 'Password should be at least 6 characters';
                     } else {
                       return null;
                     }
@@ -418,7 +415,7 @@ class _LoginPageState extends State<LoginPage> {
                   decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(5),
-                          borderSide: BorderSide(color: Colors.teal[200])),
+                          borderSide: BorderSide(color: (Colors.teal[200])!)),
                       fillColor: Colors.teal[300],
                       filled: true,
                       hintText: 'Password',
