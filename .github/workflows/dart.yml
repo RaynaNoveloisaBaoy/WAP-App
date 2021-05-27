@@ -25,8 +25,8 @@ jobs:
 
     
     - run: dart pub get
-  
-    - run: dart migrate 
+    - run: dart analyze 
+  #  - run: dart migrate 
     #- name: Get flutter dependencies.
     #- run: flutter --no-sound-null-safety
     - run: flutter pub get
